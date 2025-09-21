@@ -1,0 +1,45 @@
+<!-- <div class="ag-grid-table-component" [ngStyle]="{height:  !agGridOptions?.enableActions && Height ? Height : ''}">
+</div> -->
+<div class="aggrid-table-component card my-0">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="title-container">
+        <i class="fa fa-tag tag-icon"></i>
+        <h5 class="card-title mx-1 mb-0">{{agGridOptions?.title || ''}}</h5>
+      </div>
+      <div class="actions">
+        <div class="search-input-wrapper">
+          <i class="fa fa-search search-icon"></i>
+          <input type="text" class="form-control search-input" placeholder="Search..." [(ngModel)]="search" (ngModelChange)="onGlobalLevelSearch()" />
+        </div>
+        
+        <ng-container *ngIf="agGridOptions?.enableActions">
+            <div class="btn_action" style="height: 100%;" *ngFor="let eachdata of agGridOptions?.tableActions?.externalActions">
+                <div class="addbtn">
+                    <ng-container *ngIf="!eachdata?.noLabel; else iconTemp">
+                        <button *ngIf="isButtonVisible" type="button" class="btn {{eachdata?.class || 'btn-primary'}}" (click)="changeActions(eachdata)">
+                            <i  class="{{eachdata?.['icon-class']}}"></i><span>{{eachdata.label}}</span>
+                        </button>
+                    </ng-container>
+                    <ng-template #iconTemp>
+                      <span class="material-icons-outlined cursor-pointer" (click)="changeActions(eachdata)" title="{{eachdata['label']}}">{{eachdata['icon-class']}}</span>
+                        <!-- <button type="button" class="btn ag-grid-button bg-white border_icons" (click)="changeActions(eachdata)" container="body">
+                        </button> -->
+                    </ng-template>
+                </div>
+            </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="card-body">
+    <ag-grid-angular class="w-100" [class.enable-row-hover]="rowHoverSub" 
+    [ngStyle]="{height: ((!agGridOptions?.enableActions && Height) || (agGridOptions?.enableActions && Height)) ? Height : 'calc(100vh - 225px)'}"
+     *ngIf="agGridOptions?.columnDefs" [style.height]="agGridOptions?.height" [ngClass]="theme || 'ag-theme-balham'"
+        [gridOptions]="agGridOptions" (gridReady)="onGridReady($event)" [rowModelType]="rowModelType" [overlayLoadingTemplate]="overlayLoadingTemplate"
+        [overlayNoRowsTemplate]="overlayNoRowsTemplate" (firstDataRendered)="onFirstDataRendered($event)"
+        (cellClicked)="onCellClicked($event)" (modelUpdated)="onModelUpdated()" [cacheBlockSize]="1000000"
+        [pagination]="agGridOptions?.pagination" [rowSelection]="agGridOptions?.rowSelection"
+        (cellMouseOver)="onCellMouseOver($event)" (cellMouseOut)="onCellMouseOut($event)">
+    </ag-grid-angular>
+    </div>
+</div>

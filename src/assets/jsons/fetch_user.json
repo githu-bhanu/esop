@@ -1,0 +1,11 @@
+{
+    "status": "success",
+    "data": {
+      "name": "John Doe",
+      "username": "john.doe123",
+      "email": "john.doe@example.com",
+      "phonenumber": "9876543210",
+      "userrole": "2"
+    }
+  }
+  

@@ -1,0 +1,105 @@
+{
+  "status": "success",
+  "data": {
+    "items": [
+      {
+        "label": "Home",
+        "value": "home",
+        "hideDefaultPerms": [],
+        "extraPerms": ["download"]
+      },
+      {
+        "label": "Hierarchy",
+        "value": "hierarchy",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Parameters",
+        "value": "parameters",
+        "parent": "hierarchy",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Device Management",
+        "value": "deviceManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Devices",
+        "value": "devices",
+        "parent": "deviceManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Device Groups",
+        "value": "deviceGroups",
+        "parent": "deviceManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Tags",
+        "value": "tags",
+        "parent": "deviceManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "User Management",
+        "value": "userManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Users",
+        "value": "users",
+        "parent": "userManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "User Roles",
+        "value": "userRoles",
+        "parent": "userManagement",
+        "hideDefaultPerms": [],
+        "extraPerms": []
+      },
+      {
+        "label": "Logs",
+        "value": "logs",
+        "hideDefaultPerms": [],
+        "extraPerms": ["download"]
+      }
+    ],
+    "allPermissionList": [
+      {
+        "label": "Create",
+        "value": "create"
+      },
+      {
+        "label": "Edit",
+        "value": "edit"
+      },
+      {
+        "label": "Delete",
+        "value": "delete"
+      },
+      {
+        "label": "View",
+        "value": "view"
+      },
+      {
+        "label": "Export",
+        "value": "export"
+      },
+      {
+        "label": "Download",
+        "value": "download"
+      }
+    ]
+  }
+}

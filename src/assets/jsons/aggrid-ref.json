@@ -1,0 +1,128 @@
+{
+    "status": "success",
+    "message": "",
+    "data": {
+      "title": "User Roles",
+      "rowSelection": "multiple",
+      "defaultColDef": {
+        "flex": 1,
+        "resizable": false,
+        "sortable": true,
+        "filter": true
+      },
+      "pagination": true,
+      "columnDefs": [
+        {
+          "headerCheckboxSelection": true,
+          "checkboxSelection": true,
+          "headerName": "",
+          "resizable": false,
+          "filter": false,
+          "sortable": false,
+          "width": 50,
+          "maxWidth": 50,
+          "minWidth": 50,
+          "suppressSizeToFit": true
+        },
+        {
+          "headerName": "ID",
+          "field": "user_role_name"
+        },
+        {
+          "headerName": "Full Name",
+          "field": "user_role_description"
+        },
+        {
+          "headerName": "Created On",
+          "field": "created_on"
+        }
+      ],
+      "rowData": [
+        {
+          "user_role_id": "user_role_0",
+          "user_role_name": "Administrator1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        },
+        {
+          "user_role_id": "user_role_1",
+          "user_role_name": "Administrator1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        },
+        {
+          "user_role_id": "user_role_2",
+          "user_role_name": "Administrator1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        },
+        {
+          "user_role_id": "user_role_3",
+          "user_role_name": "Administrator1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        },
+        {
+          "user_role_id": "user_role_4",
+          "user_role_name": "Administrator1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        },
+        {
+          "user_role_id": "user_r",
+          "user_role_name": "Adtor1",
+          "user_role_description": "Can Have Admin Features",
+          "role": "windmillAdmin1",
+          "user_role_permissions": {},
+          "disabledActions": [],
+          "created_on": "31 Oct 2024"
+        }
+      ],
+      "tableActions": {
+        "actions": [
+          {
+            "label": "Edit",
+            "action": "edit",
+            "type": "edit",
+            "icon-class": "edit"
+          },
+          {
+            "label": "Edit",
+            "action": "edit",
+            "type": "edit",
+            "icon-class": "delete"
+          }
+        ],
+        "externalActions": [
+          {
+            "label": "Remove",
+            "action": "multiDelete",
+            "type": "multiDelete",
+            "icon-class": "fa fa-trash",
+            "class": "btn-danger remove-btn"
+          },
+          {
+            "label": "Create New",
+            "action": "addnew",
+            "type": "addnew"
+          }
+        ]
+      },
+      "enableActions": true
+    }
+  }

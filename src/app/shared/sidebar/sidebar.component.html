@@ -1,0 +1,44 @@
+<aside class="app-aside app-aside-dark app-aside-expand-md {{menuOpen ? 'menuOpened' : 'menuClosed'}}">
+    <div class="aside-content">
+  
+      <section class="aside-menu perfect-scrollbar">
+        <nav id="stacked-menu" class="stacked-menu {{!menuOpen  ? 'stacked-menu-has-collapsible' : 'stacked-menu-has-compact stacked-menu-has-hoverable'}}">
+          <ul class="menu {{menuOpen ? 'collapsible-menu' : ''}}">
+            <li *ngFor="let item of menuItems; let ind = index;" class="menu-item {{item.opened ? 'has-open' : ''}}"  (mouseover)="hoveredOnElement($event,ind, item.name)" (click)="clickedMenu(item.name)" [class.has-child]="item.subItems">
+              <a href="javascript:void(0)" title="{{item?.name}}" (click)="routeTo(item?.link)" class="menu-link">
+                <span class="menu-icon" title="{{item?.name}}" [ngClass]="item.icon"></span>
+                <span *ngIf="!menuOpen" title="{{item?.name}}" class="menu-text">{{ item.name }}</span>
+                <!-- <span *ngIf="!menuOpen && item.badge" (click)="item.opened = !item.opened" class="badge badge-success">{{ item.badge }}</span> -->
+                <!-- <span *ngIf="!menuOpen && item.subItems?.length" (click)="item.opened = !item.opened" class="menu-arrow fa fa-chevron-{{item.opened ? 'down' : 'right'}}"></span> -->
+              </a>
+  
+              <!-- Child menu if present -->
+              <ng-container *ngIf="!menuOpen; else collapsibleTemplate">
+                <ul class="pl-2point5rem" *ngIf="item?.subItems?.length && activeName === item?.name">
+                  <li class="menu-subhead">{{ item.name }}</li>
+                  <li *ngFor="let subItem of item.subItems" class="sub-item menu-item">
+                    <span class="mt-10px sub-item menu-icon" [ngClass]="subItem.icon"></span>
+                    <a href="javascript:void(0)" (click)="routeTo(subItem.link)" class="sub-item menu-link">{{ subItem.name }}</a>
+                  </li>
+                </ul>
+              </ng-container>
+              <ng-template #collapsibleTemplate>
+                <div class="collapsible-sub-menu" [id]="'sub-menu-data' + ind" (mouseenter)="setMouseOverTemplate(true)"
+                (mouseleave)="setMouseOverTemplate(false)">
+                <ul class="pl-2point5rem" *ngIf="item?.subItems?.length && activeName === item?.name" >
+                  <li class="menu-subhead">{{ item.name }}</li>
+                  <li *ngFor="let subItem of item.subItems" class="sub-item menu-item">
+                    <span class="mt-10px sub-item menu-icon" [ngClass]="subItem.icon"></span>
+                    <a href="javascript:void(0)" (click)="routeTo(subItem.link)" class="sub-item menu-link">{{ subItem.name }}</a>
+                  </li>
+                </ul>
+              </div>
+              </ng-template>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div>
+  </aside>
+  
+  

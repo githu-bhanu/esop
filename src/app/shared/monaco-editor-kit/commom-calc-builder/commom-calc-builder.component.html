@@ -1,0 +1,5 @@
+<div class="col-lg-12 p-2" [ngClass] ="{'dynamic-height': applyHeight}" style="border-radius: 5px;border: 1px solid #c5c5c5;">
+  <ngx-monaco-editor *ngIf="editorOptions" [id]="id"
+   class="calc-editor monaco-editor" [options]="editorOptions" [(ngModel)]="formulaInfo.code" (ngModelChange)="codeChangeAction()"
+   (onInit)="onInitMonaco($event)"></ngx-monaco-editor>
+</div>

@@ -1,0 +1,75 @@
+{
+    "user_role_name": "Admin",
+    "user_role_description": "Administrator with full access",
+    "user_role_permissions": {
+      "home": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true,
+        "download": true
+      },
+      "hierarchy": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "parameters": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "deviceManagement": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "devices": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "deviceGroups": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "tags": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "userManagement": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "users": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "userRoles": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true
+      },
+      "logs": {
+        "create": true,
+        "edit": true,
+        "delete": true,
+        "view": true,
+        "download": true
+      }
+    }
+  }
+  

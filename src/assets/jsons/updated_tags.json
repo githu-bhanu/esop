@@ -1,0 +1,76 @@
+{
+    "status": "success",
+    "message": "",
+    "data": {
+      "defaultColDef": {
+        "flex": 1,
+        "resizable": false,
+        "sortable": true,
+        "filter": true
+      },
+      "columnDefs": [
+        {
+          "headerCheckboxSelection": true,
+          "checkboxSelection": true,
+          "headerName": "",
+          "resizable": false,
+          "filter": false,
+          "sortable": false,
+          "width": 50,
+          "maxWidth": 50,
+          "minWidth": 50,
+          "suppressSizeToFit": true
+        },
+        {
+            "field": "tag_name", 
+            "headerName": "Tag Name" 
+        }
+      ],
+      "rowData": [
+        {
+            "id": 1,
+            "tag_name": "inray/opc-router"
+        },
+        {
+            "id": 2,
+            "tag_name": "softing/edgeconnector/siemens"
+        },
+        {
+            "id": 3,
+            "tag_name": "wago"
+        },
+        {
+            "id": 4,
+            "tag_name": "homelab"
+        },
+        {
+            "id": 5,
+            "tag_name": "portainer/dnd"
+        },
+        {
+            "id": 6,
+            "tag_name": "on-the-fly-devices"
+        }
+      ],
+      "tableActions": {
+        "actions": [
+          {
+            "label": "Edit",
+            "action": "edit",
+            "type": "edit",
+            "icon-class": "edit"
+          }
+        ],
+        "externalActions": [
+          {
+            "label": "Remove",
+            "action": "multiDelete",
+            "type": "multiDelete",
+            "icon-class": "fa fa-trash",
+            "class": "btn-danger remove-btn"
+          }
+        ]
+      },
+      "enableActions": true
+    }
+  }

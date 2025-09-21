@@ -1,0 +1,29 @@
+{
+    "status": "success",
+    "tags": [
+        {
+            "id": 1,
+            "tag_name": "inray/opc-router"
+        },
+        {
+            "id": 2,
+            "tag_name": "softing/edgeconnector/siemens"
+        },
+        {
+            "id": 3,
+            "tag_name": "wago"
+        },
+        {
+            "id": 4,
+            "tag_name": "homelab"
+        },
+        {
+            "id": 5,
+            "tag_name": "portainer/dnd"
+        },
+        {
+            "id": 6,
+            "tag_name": "on-the-fly-devices"
+        }
+    ]
+}

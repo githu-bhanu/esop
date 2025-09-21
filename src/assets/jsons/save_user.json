@@ -1,0 +1,8 @@
+{
+    "status": true,
+    "message": "User created successfully",
+    "data": {
+      "user_id": 101
+    }
+  }
+  

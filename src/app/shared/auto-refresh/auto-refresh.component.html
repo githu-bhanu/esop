@@ -1,0 +1,15 @@
+<div class="d-flex border my-1 auto-refresh-btn">
+  <a href="javascript:void(0)" *ngIf="!metaData['auto_refresh_duration']"
+   (click)="emitAction(action_interval)" class="btn btn-link border-right h-auto">
+    <em  class="icon-icons8-replace-100"></em>
+  </a>
+  <a href="javascript:void(0)" *ngIf="metaData['auto_refresh_duration']"
+     class="btn btn-link border h-auto d-flex align-items-center auto-refresh-icon">
+    <em class="fa fa-spinner fa-spin"></em>
+  </a>
+  <ng-select  [items]="action_interval['intervals']" 
+  placeholder="Select time range" [clearable]="false" 
+  [(ngModel)]="metaData['auto_refresh_duration']" bindValue="value" bindLabel="label"
+  (ngModelChange)="onChangeInTimeRange($event, action_interval)" appendTo="body">
+  </ng-select>
+</div>

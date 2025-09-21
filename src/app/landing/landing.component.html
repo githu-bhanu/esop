@@ -1,0 +1,6 @@
+<!-- <esop-sidebar [menuOpen]="menuOpen" [menuItems]="menuItems"></esop-sidebar> -->
+<esop-left-side-bar [menuOpen]="menuOpen"></esop-left-side-bar>
+<esop-modal></esop-modal>
+<esop-common-popup></esop-common-popup>
+<esop-header (toggleMenu)="toggleSidebar()"></esop-header>
+<router-outlet></router-outlet>

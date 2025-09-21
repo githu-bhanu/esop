@@ -1,0 +1,86 @@
+{
+    "status": "success",
+    "message": "",
+    "data": {
+      "title": "Equipments",
+      "rowSelection": "multiple",
+      "defaultColDef": {
+        "flex": 1,
+        "resizable": false,
+        "sortable": true,
+        "filter": true
+      },
+      "pagination": true,
+      "columnDefs": [
+        {
+          "headerCheckboxSelection": true,
+          "checkboxSelection": true,
+          "headerName": "",
+          "resizable": false,
+          "filter": false,
+          "sortable": false,
+          "width": 50,
+          "maxWidth": 50,
+          "minWidth": 50,
+          "suppressSizeToFit": true
+        },
+        {
+          "headerName": "Equipment Name",
+          "field": "equipment_name"
+        },
+        {
+          "headerName": "Description",
+          "field": "description"
+        },
+        {
+          "headerName": "Created On",
+          "field": "created_on"
+        }
+      ],
+      "rowData": [
+        {
+          "equipment_id": "equipment_0",
+          "equipment_name": "Fan",
+          "description": "Two or more assets it consists.",
+          "created_on": "31 Oct 2024"
+        }
+      ],
+      "tableActions": {
+        "actions": [
+          {
+            "label": "View",
+            "action": "view",
+            "type": "view",
+            "icon-class": "visibility"
+          },
+          {
+            "label": "Edit",
+            "action": "edit",
+            "type": "edit",
+            "icon-class": "edit"
+          },
+          {
+            "label": "Delete",
+            "action": "delete",
+            "type": "delete",
+            "icon-class": "delete"
+          }
+        ],
+        "externalActions": [
+          {
+            "label": "Remove",
+            "action": "multiDelete",
+            "type": "multiDelete",
+            "icon-class": "fa fa-trash",
+            "class": "btn-danger remove-btn"
+          },
+          {
+            "label": "Create New",
+            "action": "addnew",
+            "type": "addnew"
+          }
+        ]
+      },
+      "enableActions": true
+    }
+  }

@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "fields": [
+        {
+          "type": "text",
+          "label": "Line Name",
+          "key": "line_name",
+          "required": true
+        },
+        {
+          "type": "textarea",
+          "label": "Description",
+          "key": "description"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "fields": [
+        {
+          "type": "text",
+          "label": "Equipment Name",
+          "key": "equipment_name",
+          "required": true
+        },
+        {
+          "type": "textarea",
+          "label": "Description",
+          "key": "description"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+
+  <div class="left-side-bar overlay-menu-mobile"  [ngClass]="{'lang-arabic':appLanguage === 'arabic'}">
+    <ul class="menus-list">
+      <span class="item-label pl-2 cursor-pointer" style="position: absolute; top: 45%;"
+        [ngClass]="sidebarOpened ? 'l_25' : 'l_0'" title="Retry" *ngIf="sideOptions?.retry && !(menusList?.length)"
+        (click)="getMenusList()"><em class="mr-1 fa fa-repeat"></em>Retry</span>
+      <div class="left-sidebar-icons-menu">
+      <ng-container *ngFor='let eachItem of menusList;let ind=index'>
+        <li (click)="onItemClick(eachItem,menusList)" [ngClass]="{'collapsed-class': !sidebarOpened,
+        'collapse-open': sidebarOpened,'selected-background-class': parentSelection === eachItem.key && !sidebarOpened}"
+          [class.active-item]="eachItem.route && router.url.includes(eachItem.route)" [class.parentMenuStyle]="eachItem?.children?.length && eachItem.expanded && sidebarOpened"
+          [ngbTooltip]="!eachItem?.children?.length && !sidebarOpened ? eachItem.name : null" placement="right" >
+          <div class="side-menu-item d-flex justify-content-center" [ngClass]="{'sidebar-opened':sidebarOpened}" (mouseover)="hoveredOnElement($event,ind)" >
+            <div class="side-menu-icons" style="padding-top: 0.125rem !important">
+              <span class="item-icon {{eachItem.icon}}" title="{{eachItem?.name}}" style="height: 18px; font-size: 1.25rem;"></span>
+              <!-- <img height="20px" src="assets/images/sidebar-icons/{{eachItem.icon}}.svg" alt="" class="item-icon"> -->
+            </div>
+            <div class="item-label" title="{{eachItem?.name}}">{{eachItem.name}}</div>
+            <div  *ngIf="eachItem?.children?.length && sidebarOpened">
+              <span class="fa fa-angle-{{eachItem.expanded ? 'up' : 'down'}}" style="font-size: 20px;"></span>
+            </div>
+            <ng-container *ngIf="eachItem?.children?.length && !sidebarOpened">
+              <ng-container *ngTemplateOutlet="sideMenuTemplate;context:{menus:eachItem, level:1, index:ind}"></ng-container>
+            </ng-container>
+          </div>
+        </li>
+        <ng-container *ngIf="eachItem?.children?.length && eachItem.expanded && sidebarOpened">
+          <ng-container *ngTemplateOutlet="childrenTemplate;context:{menus:eachItem.children, level:1}"></ng-container>
+        </ng-container>
+      </ng-container>
+      </div>
+      <div class="p-2 navigation-menu-icon" [ngStyle]="{'justify-content': !sidebarOpened ? 'center':'space-between'}" [style.height]="'32px'" style="font-size:14px;margin-right:0px; border-top:1px solid #D9D9D9">
+        <div class="toggle-icon-sidebar" *ngIf="!sideOptions?.retry && (menusList?.length)">
+          <div class="expand-sidebar" [ngbTooltip]="sidebarOpened ? null : 'Expand'">
+            <div class="bar-icon" style="cursor:pointer; text-align:center" *ngIf="!sidebarOpened else sidebarCollapsed">            
+              <span class="material-icons md-36 bar-icon-leftbar" style="cursor:pointer; text-align:center" height="16px" width="16px"
+                placement="right"  (click)="toggleSidebar()">keyboard_double_arrow_right</span>
+            </div>           
+            <ng-template #sidebarCollapsed>         
+              <span *ngIf="sidebarOpened" class="material-icons md-36 close-icon-leftbar"
+                [ngbTooltip]="sidebarOpened ? 'Collapse' : null" style="cursor:pointer; float:right"
+                height="16px" width="16px" placement="right" (click)="toggleSidebar()">keyboard_double_arrow_left</span>            
+              <span *ngIf="sidebarOpened" class="item-label nav-menu-label" style="cursor:pointer" (click)="toggleSidebar()">Collapse Menu</span>            
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </div>
+  <ng-template #childrenTemplate let-menusList="menus" let-level="level">
+    <ul class="paddingInLineStart">
+      <ng-container *ngFor='let eachItem of menusList'>
+       <li (click)="onItemClick(eachItem,menusList)"
+       [ngClass]="{'selected-background-class': selectedItem?.key === eachItem?.key}"
+          [class.active-item]="eachItem.route && router.url.includes(eachItem.route)" [class.parentMenuStyle]="eachItem?.children?.length && eachItem.expanded && sidebarOpened">
+          <div class="side-menu-item child-menu">
+            <span *ngIf="eachItem?.icon" style="height: 18px; font-size: 1.25rem;" class="item-icon {{eachItem.icon}}"></span>
+            <!-- <img *ngIf="eachItem?.icon" height="18px" src="assets/images/sidebar-icons/{{eachItem.icon}}.svg" alt="" class="item-icon"> -->
+            <span class="item-label child-label" title="{{eachItem.name}}">{{eachItem.name}}</span>
+            <div class="float-right" *ngIf="eachItem?.children?.length && sidebarOpened">
+              <span class="fa fa-angle-{{eachItem.expanded ? 'up' : 'down'}}" style="font-size: 20px;"></span>
+            </div>
+          </div>
+        </li>
+        <ng-container *ngIf="eachItem?.children?.length && eachItem.expanded && sidebarOpened">
+          <ng-container *ngTemplateOutlet="childrenTemplate;context:{menus:eachItem.children, level:level+1}">
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </ng-template>
+  
+  
+  <ng-template #sideMenuTemplate let-menus="menus" let-level="level" let-index="index">
+    <ul class="sub-menu" *ngIf="menus" [id]="'sub-menu-data' + index" (mouseenter)="setMouseOverTemplate(true)"
+    (mouseleave)="setMouseOverTemplate(false)">
+      <li class="sub-menu-item font-bold"  style="border-bottom: 1px solid rgb(242 190 190);">{{menus.name}}</li>
+      <ng-container *ngFor='let eachItem of menus.children'>
+        <li class="sub-menu-item" [ngClass]="{'selected-background-class-sub': selectedItem?.key === eachItem.key}" (click)="onItemClick(eachItem)"  >
+          <span>{{eachItem.name}}</span>
+          <ng-container *ngIf="eachItem.children?.length">
+            <ng-container *ngTemplateOutlet="sideMenuTemplate;context:{menus:eachItem, level:level+1, index:index}"></ng-container>
+          </ng-container>
+        </li>
+      </ng-container>
+    </ul>
+  </ng-template>
+

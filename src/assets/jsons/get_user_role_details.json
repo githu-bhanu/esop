@@ -1,0 +1,109 @@
+{
+  "status": "success",
+  "message": "",
+  "data": {
+    "title": "User Roles",
+    "defaultColDef": {
+      "flex": 1,
+      "resizable": false,
+      "sortable": true,
+      "filter": true
+    },
+    "pagination": true,
+    "columnDefs": [
+      {
+        "headerName": "ID",
+        "field": "user_role_name"
+      },
+      {
+        "headerName": "Full Name",
+        "field": "user_role_description"
+      },
+      {
+        "headerName": "Created On",
+        "field": "created_on"
+      }
+    ],
+    "rowData": [
+      {
+        "user_role_id": "0",
+        "user_role_name": "Administrator1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin1",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      },
+      {
+        "user_role_id": "1",
+        "user_role_name": "Administrator1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin2",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      },
+      {
+        "user_role_id": "2",
+        "user_role_name": "Administrator1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin3",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      },
+      {
+        "user_role_id": "3",
+        "user_role_name": "Administrator1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin4",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      },
+      {
+        "user_role_id": "4",
+        "user_role_name": "Administrator1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin5",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      },
+      {
+        "user_role_id": "5",
+        "user_role_name": "Adtor1",
+        "user_role_description": "Can Have Admin Features",
+        "role": "windmillAdmin6",
+        "user_role_permissions": {},
+        "disabledActions": [],
+        "created_on": "31 Oct 2024"
+      }
+    ],
+    "tableActions": {
+      "actions": [
+        {
+          "label": "Edit",
+          "action": "edit",
+          "type": "edit",
+          "icon-class": "edit"
+        },
+        {
+          "label": "Edit",
+          "action": "edit",
+          "type": "edit",
+          "icon-class": "delete"
+        }
+      ],
+      "externalActions": [
+        {
+          "label": "Create New",
+          "action": "addnew",
+          "type": "addnew",
+          "icon-class": "fa fa-plus mr-2"
+        }
+      ]
+    },
+    "enableActions": true
+  }
+}

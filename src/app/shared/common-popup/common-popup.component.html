@@ -1,0 +1,49 @@
+<div>
+  <button type="button" class="btn btn-primary" id="openModal" data-backdrop="static" data-keyboard="false"
+    data-toggle="modal" data-target="#exampleModalCenter" hidden>
+    openModal
+  </button>
+</div>
+
+<ng-container>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" style="z-index: 1090;" role="dialog" #modal
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <ng-container *ngIf="modalContent['show']">
+          <div class="modal-header border-0">
+            <h5 class="modal-title inter-medium"
+              id="exampleModalCenterTitle">
+              {{modalContent.title}}
+            </h5>
+            <button type="button" class="btn-close" data-dismiss="modal" id="closeCommonPopup" aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body m-0 py-0 inter-regular" style="color: black;">
+            <label>{{modalContent.body}}</label>
+          </div>
+          <ng-container *ngIf="modalContent['type'] === 'info'">
+            <div class="modal-footer d-flex justify-content-end">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+              <button type="button" hidden class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="modalContent['type'] === 'confirmation' || modalContent['type'] === 'deletion'"> 
+            <div class="modal-footer d-flex">
+              <button type="button" [ngClass]="modalContent['type'] === 'confirmation' ? 'btn btn-primary m-0' : 'btn btn-danger m-0'" (click)="delete_item(modal, 'Yes')">{{ modalContent['type'] === 'confirmation' ? 'Proceed' : 'Delete' }}</button>
+              <button type="button" class="btn btn-dark m-0"
+                (click)="delete_item(modal, 'No')">Cancel</button>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="modalContent['type'] === 'check'"> 
+            <div class="modal-footer d-flex">
+              <button type="button" [ngClass]="modalContent['type'] === 'check' ? 'btn btn-primary m-0' : 'btn btn-danger m-0'" (click)="delete_item(modal, 'new')">New</button>
+              <button type="button" class="btn btn-outline-primary m-0"
+                (click)="delete_item(modal, 'existing')">Existing</button>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>

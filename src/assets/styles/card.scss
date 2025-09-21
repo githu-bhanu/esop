@@ -1,0 +1,101 @@
+.card-header {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+
+    .title-container {
+        display: flex;
+        align-items: center;
+
+        .tag-icon {
+            font-size: 1.25rem;
+            color: #00c2ff;
+            margin-right: 0.25rem;
+        }
+
+        .card-title {
+            color: #343a40;
+        }
+    }
+
+    .btn-primary {
+        background-color: #4e73df;
+        border: none;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.75rem;
+
+        &:disabled {
+            background-color: #d1d3e2;
+            cursor: not-allowed;
+        }
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.2rem 0.4rem;
+            background-color: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+            .search-icon {
+                color: #6c757d;
+                font-size: 0.875rem;
+                margin-right: 0.3rem;
+            }
+
+            .search-input {
+                border: none;
+                outline: none;
+                width: 120px;
+                font-size: 0.875rem;
+                color: #495057;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            &:focus-within {
+                border-color: #00c2ff;
+                box-shadow: 0 0 4px #00c2ff;
+            }
+        }
+
+        .remove-btn {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background-color: #ff6f61;
+            border-color: #ff6f61;
+
+            i {
+                font-size: 0.875rem;
+            }
+
+            &:hover {
+                background-color: #ff4e42;
+                border-color: #ff4e42;
+            }
+
+            &:disabled {
+                background-color: #f8d7da;
+                border-color: #f8d7da;
+                color: #6c757d;
+                cursor: not-allowed;
+            }
+        }
+    }
+}
+
+.card-title {
+    font-size: 1rem;
+}

@@ -1,0 +1,30 @@
+<div class="card tree-wrapper mb-0">
+    <div>
+        <input type="text" class="tree-search" [(ngModel)]="searchTerm" (input)="onSearchChange(searchTerm)"
+            placeholder="Search..." />
+    </div>
+    <div class="card-body p-0">
+        <tree-root #tree [nodes]="filteredNodes" [options]="options" (activate)="onNodeActivate($event)">
+    
+            <ng-template #treeNodeTemplate let-node>
+                <div class="tree-node" [class.selected]="node.id === selectedNodeId"
+                    [ngStyle]="{ 'padding-left.px': (node.level -1) * 16 }">
+    
+                    <!-- Chevron for expandable nodes -->
+                    <span *ngIf="node.hasChildren" class="toggle-icon"
+                        (click)="node.toggleExpanded(); $event.stopPropagation()">
+                        <i class="fa" [ngClass]="node.isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+                    </span>
+    
+                    <!-- Optional icon based on type -->
+                    <!-- <span *ngIf="!['equipment', 'ast'].includes(node.data?.type)" class="fa fa-folder icon"></span>
+                    <span *ngIf="['equipment', 'ast'].includes(node.data?.type)" class="fa fa-device icon"></span> -->
+    
+                    <span class="node-label" (click)="nodeLabelClick(node)">{{ node.data.name }}</span>
+                </div>
+    
+            </ng-template>
+        </tree-root>
+    </div>
+
+</div>

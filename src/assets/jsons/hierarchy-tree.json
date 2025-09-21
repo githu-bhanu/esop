@@ -1,0 +1,39 @@
+{
+    "status": "success",
+    "data": [
+        {
+          "name": "Plant A",
+          "type": "site",
+          "children": [
+            {
+              "name": "Unit 1",
+              "type": "equipment",
+              "children": [
+                { "name": "Sensor A1", "type": "ast" },
+                { "name": "Sensor A2", "type": "ast" }
+              ]
+            },
+            {
+              "name": "Unit 2",
+              "type": "equipment",
+              "children": [
+                { "name": "Sensor B1", "type": "ast" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Plant B",
+          "type": "site",
+          "children": [
+            {
+              "name": "Unit 3",
+              "type": "equipment",
+              "children": [
+                { "name": "Sensor C1", "type": "ast" }
+              ]
+            }
+          ]
+        }
+    ]
+}

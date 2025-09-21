@@ -1,0 +1,612 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "name": "Asset Management",
+            "key": "assetDirectory",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "asset-directory",
+            "children": [
+                {
+                    "key": "tags",
+                    "parent_key": "masterConfiguration",
+                    "name": "Parameters",
+                    "route": "p/settings/master-config/tags-conf",
+                    "_route": "p/settings/master-config/tags-conf",
+                    "folder": "base",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "key": "units",
+                    "parent_key": "masterConfiguration",
+                    "name": "Units",
+                    "route": "p/settings/master-config/units-conf",
+                    "_route": "p/settings/master-config/units-conf",
+                    "folder": "base",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/materials",
+                    "_route": "p/materials",
+                    "folder": "base",
+                    "name": "Materials",
+                    "parent_key": "materials",
+                    "key": "materials"
+                },
+                {
+                    "route": "p/things/model",
+                    "_route": "p/things/model",
+                    "folder": "base",
+                    "name": "Asset Model",
+                    "parent_key": "thingsStudio",
+                    "key": "thingsStudio"
+                },
+                {
+                    "route": "p/asset-explorer",
+                    "_route": "p/asset-explorer",
+                    "folder": "base",
+                    "name": "Assets",
+                    "parent_key": "assetExplorer",
+                    "key": "assetExplorer"
+                }
+            ]
+        },
+        {
+            "name": "Edge Management",
+            "key": "edgeGateway",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "device-manager",
+            "children": [
+                {
+                    "name": "Protocols",
+                    "key": "protocol",
+                    "parent_key": "edgeManagement",
+                    "route": "p/settings/master-config/edge/protocol-listing",
+                    "_route": "protocol-listing",
+                    "folder": "edge_management",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/master-config/edge/deviceModel-listing",
+                    "_route": "deviceModel-listing",
+                    "folder": "edgeManagement",
+                    "name": "Sensor Models",
+                    "parent_key": "edgeManagement",
+                    "key": "sensorDeviceModels",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/data-connectors/listing",
+                    "_route": "data-connectors",
+                    "folder": "edgeManagement",
+                    "name": "Data Connectors",
+                    "parent_key": "edgeManagement",
+                    "key": "sensorDataConnectors",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/master-config/component-builder",
+                    "_route": "component-builder",
+                    "folder": "edge_management",
+                    "name": "Components",
+                    "parent_key": "masterConfiguration",
+                    "key": "pipelineComponents",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/gateways",
+                    "_route": "gateways",
+                    "folder": "edge_management",
+                    "name": "Gateways",
+                    "parent_key": "deviceManager",
+                    "key": "deviceManager"
+                },
+                {
+                    "name": "Pipelines",
+                    "key": "pipelineBuilder",
+                    "parent_key": "pipelineBuilder",
+                    "route": "p/pipelines/data-pipeline",
+                    "_route": "pipelines/data-pipeline",
+                    "folder": "edge_management"
+                },
+                {
+                    "name": "Acquisition",
+                    "key": "acquisitionConfiguration",
+                    "parent_key": "acquisitionConfiguration",
+                    "folder": "edge_management",
+                    "route": "p/pipelines/channel-pipeline",
+                    "_route": "pipelines/channel-pipeline"
+                }
+            ]
+        },
+        {
+            "name": "Edge Management OEM",
+            "key": "edgeGatewayOEM",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "device-manager",
+            "children": [
+                {
+                    "route": "p/container-management",
+                    "_route": "container-management",
+                    "folder": "edge_management",
+                    "name": "Containers OEM",
+                    "parent_key": "containerManagement",
+                    "key": "containerManagement"
+                }
+            ]
+        },
+        {
+            "name": "OPAF",
+            "key": "opaf",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "device-manager",
+            "children": [
+                {
+                    "key": "protocolsOPAF",
+                    "parent_key": "opaf",
+                    "name": "Protocols",
+                    "route": "p/opaf/protocol-listing",
+                    "_route": "protocol-listing",
+                    "folder": "edge_management",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/opaf/deviceModel-listing",
+                    "_route": "deviceModel-listing",
+                    "folder": "edge_management",
+                    "name": "Sensor Models",
+                    "parent_key": "opaf",
+                    "key": "sensorDeviceModelsOPAF",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/opaf/device-models",
+                    "_route": "device-models",
+                    "folder": "opaf",
+                    "name": "Device Models",
+                    "parent_key": "opaf",
+                    "key": "device_models",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/opaf/devices",
+                    "_route": "devices",
+                    "folder": "opaf",
+                    "name": "Devices",
+                    "parent_key": "opaf",
+                    "key": "devices",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/opaf/applications",
+                    "_route": "applications",
+                    "folder": "opaf",
+                    "name": "Applications",
+                    "parent_key": "opaf",
+                    "key": "applications",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/opaf/deployments",
+                    "_route": "deployments",
+                    "folder": "opaf",
+                    "name": "Deployments",
+                    "parent_key": "opaf",
+                    "key": "deployments",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Model",
+            "key": "dataModel",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "data-model",
+            "children": [
+                {
+                    "name": "Asset Hierarchy",
+                    "key": "assetHierarchy",
+                    "parent_key": "dataModel",
+                    "route": "p/data-model/physical",
+                    "_route": "protocol-listing",
+                    "folder": "dataModel",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "Batch Process",
+                    "route": "p/data-model/batch",
+                    "_route": "deviceModel-listing",
+                    "folder": "dataModel",
+                    "parent_key": "dataModel",
+                    "key": "batchProcess",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "Continuous Process",
+                    "route": "p/data-model/continuous",
+                    "_route": "component-builder",
+                    "folder": "dataModel",
+                    "parent_key": "dataModel",
+                    "key": "continuousProcess",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Insights",
+            "key": "insights",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "apps",
+            "children": [
+                {
+                    "key": "apps",
+                    "parent_key": "apps",
+                    "name": "Apps",
+                    "route": "p/apps/apps-list",
+                    "_route": "p/apps/apps-list",
+                    "folder": "base"
+                },
+                {
+                    "route": "p/dashboard",
+                    "_route": "p/dashboard",
+                    "folder": "base",
+                    "name": "Dashboards",
+                    "parent_key": "visualization",
+                    "key": "visualization"
+                },
+                {
+                    "route": "p/sld",
+                    "_route": "p/sld",
+                    "folder": "base",
+                    "name": "Digital Twin",
+                    "parent_key": "scada",
+                    "key": "scada"
+                },
+                {
+                    "name": "Data Explorer",
+                    "key": "dataExplorerV2",
+                    "parent_key": "dataExplorerV2",
+                    "route": "p/dataExplorer-V2",
+                    "_route": "p/dataExplorer-V2",
+                    "folder": "base"
+                }
+            ]
+        },
+        {
+            "name": "User Management",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "users",
+            "key": "staffManagement",
+            "children": [
+                {
+                    "name": "Organisation Setup",
+                    "route": "p/settings/organisation-setup",
+                    "_route": "organisation-setup",
+                    "folder": "user_management",
+                    "parent_key": "staffManagement",
+                    "key": "organisationSetup",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "Users",
+                    "route": "p/settings/user-access/users",
+                    "_route": "user-access/users",
+                    "folder": "user_management",
+                    "parent_key": "userManagement",
+                    "key": "userList",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "User Roles",
+                    "route": "p/settings/user-access/roles",
+                    "_route": "user-access/roles",
+                    "folder": "user_management",
+                    "parent_key": "userManagement",
+                    "key": "userAccess",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "Access Groups",
+                    "route": "p/settings/user-access/access-groups",
+                    "_route": "user-access/access-groups",
+                    "folder": "user_management",
+                    "parent_key": "userManagement",
+                    "key": "workGroup",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "name": "Shift Master",
+                    "route": "p/settings/master-config/shifts",
+                    "_route": "shifts",
+                    "folder": "user_management",
+                    "parent_key": "masterConfiguration",
+                    "key": "shifts",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Task Builder",
+            "key": "forms",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "task-builder",
+            "children": [
+                {
+                    "key": "templates",
+                    "parent_key": "forms",
+                    "name": "Steps",
+                    "route": "p/settings/forms/templates",
+                    "iframe": {
+                        "folder": "ftdm-logbook",
+                        "_route": "/#/p/settings/forms/templates"
+                    },
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/forms/workflows",
+                    "iframe": {
+                        "folder": "ftdm-logbook",
+                        "_route": "/#/p/settings/forms/workflows"
+                    },
+                    "folder": "ebpr_app",
+                    "name": "Workflows",
+                    "parent_key": "forms",
+                    "key": "workflows",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/forms/logbooks",
+                    "iframe": {
+                        "folder": "ftdm-logbook",
+                        "_route": "/#/p/settings/forms/logbooks"
+                    },
+                    "name": "Logbooks",
+                    "parent_key": "forms",
+                    "key": "logbook",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "tasks",
+            "name": "Tasks",
+            "route": "p/settings/tasks-listing",
+            "iframe": {
+                "folder": "ftdm-logbook",
+                "_route": "/#/p/settings/tasks-listing"
+            },
+            "icon": "tasks",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "queryParams": {
+                "settings_sidebar": "disable"
+            }
+        },
+        {
+            "name": "Utilities",
+            "key": "utilities",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "events",
+            "children": [
+                {
+                    "key": "taskDataImport",
+                    "parent_key": "taskDataImport",
+                    "name": "Task Data Import",
+                    "route": "p/task-data-upload",
+                    "_route": "task-data-upload"
+                },
+                {
+                    "key": "dataImport",
+                    "parent_key": "dataImport",
+                    "name": "General Data Import",
+                    "route": "p/data-import"
+                },
+                {
+                    "key": "dataAggregation",
+                    "parent_key": "dataAggregation",
+                    "name": "Data Aggregation",
+                    "route": "p/data-aggregation"
+                },
+                {
+                    "route": "p/settings/site-configuration",
+                    "name": "Hierarchy",
+                    "parent_key": "sites",
+                    "key": "sites",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/alarm-config",
+                    "_route": "alarm-config",
+                    "name": "Alarm Setup",
+                    "folder": "edge_management",
+                    "parent_key": "alarmConfiguration",
+                    "key": "alarmConfiguration",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/rule-config",
+                    "_route": "rule-config",
+                    "folder": "edge_management",
+                    "name": "Rule Setup",
+                    "parent_key": "ruleEngine",
+                    "key": "ruleEngine",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/rule-template",
+                    "_route": "rule-template",
+                    "name": "Rule Template",
+                    "parent_key": "ruleTemplate",
+                    "key": "ruleTemplate",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "route": "p/settings/rule-function",
+                    "_route": "rule-function",
+                    "name": "Rule Functions",
+                    "parent_key": "ruleFunctions",
+                    "key": "ruleFunctions",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                },
+                {
+                    "key": "tagsOEM",
+                    "parent_key": "masterConfiguration",
+                    "name": "Parameters",
+                    "route": "p/settings/master-config/tags-conf",
+                    "queryParams": {
+                        "settings_sidebar": "disable"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "key": "reports",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "icon": "reports",
+            "children": [
+                {
+                    "key": "definedReports",
+                    "parent_key": "reports",
+                    "name": "Define Report",
+                    "route": "p/reports/define-reports"
+                },
+                {
+                    "key": "advancedReports",
+                    "parent_key": "reports",
+                    "name": "Advanced Reports",
+                    "route": "p/ebpr-report/list/advanced"
+                },
+                {
+                    "key": "generatedReports",
+                    "parent_key": "reports",
+                    "name": "Generated Reports",
+                    "route": "p/generated-reports/list"
+                }
+            ]
+        },
+        {
+            "key": "visionApp",
+            "name": "Vision App",
+            "route": "p/vision-app",
+            "_route": "vision-app",
+            "folder": "vision_app",
+            "icon": "visionApp",
+            "access_level": [
+                "machine",
+                "assistant"
+            ]
+        },
+        {
+            "key": "devopsConsole",
+            "name": "DevOps Console",
+            "route": "p/devops-console",
+            "icon": "visionApp",
+            "access_level": [
+                "machine",
+                "assistant"
+            ]
+        },
+        {
+            "key": "developerPlugins",
+            "name": "Developer Plugins",
+            "route": "p/settings/new-plugins/plugins-list",
+            "icon": "visionApp",
+            "access_level": [
+                "machine",
+                "assistant"
+            ],
+            "queryParams": {
+                "settings_sidebar": "disable"
+            }
+        }
+    ]
+}

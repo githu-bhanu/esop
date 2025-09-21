@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import 'material-icons/iconfont/material-icons.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "./assets/styles/left-side-bar.scss";
+@import "./assets/styles/loader.scss";
+@import "./assets/styles/button.scss";
+@import "./assets/styles/modal.scss";
+@import "./assets/styles/card.scss";
+@import "./assets/styles/select.scss";
+@import "./assets/styles/toaster.scss";
+//============== External file imports ==============//
+
+//============== SCSS Variables ==============//
+$font-regular: "Inter-Regular";
+$font-medium: "Inter-Medium";
+$font-semi-bold: "Inter-SemiBold";
+$font-bold: "Inter-Bold";
+
+:root {
+    --expSidebarWidth         : 14rem;
+    --colSidebarWidth         : 3.063rem;
+    --leftSideBarWidth        : 3.063rem;
+    --leftSideBarHover        : #e6f3fb;
+    --leftSideBarActive       : #5C5C5C;
+    --sidebarWidth            : 14rem;
+    --navbarHeight            : 3.5rem;
+    --headerHeight            : 3.5rem;
+    // --sidebarWidth: 4rem;
+}
+
+$expSidebarWidth         : var(--expSidebarWidth);
+$colSidebarWidth         : var(--colSidebarWidth);
+$sidebarWidth            : var(--sidebarWidth);
+$navbarHeight            : var(--navbarHeight);
+
+body {
+   background-color: #e7e7e7;
+   overflow-x: hidden;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-auto {
+    cursor: auto;
+}
+
+.main-content {
+    padding-top: var(--navbarHeight);
+}
+
+h5 {
+    font-size: 0.875rem;
+}
+
+h6, label {
+    font-size: 0.75rem;
+}
+.w-10 {
+    width: 10%;
+}
+.w-90 {
+    width: 90%;
+}
+// .sidebar-closed {
+//     .main-content {
+//         padding-left: var(--sidebarWidth);
+//     }
+// }
+
+// .sidebar-opened {
+//     .main-content {
+//         padding-left: 15rem;
+//     }
+// }
+
+// scrollbar
+::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #00000038 !important;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent !important;
+}
+
+// form-styles
+.required-black:after {
+    content: "*";
+    color: #000000;
+}
+
+.required:after {
+    content: "*";
+    color: #DD2C00;
+}
+
+.text-black {
+    color: black !important;
+}
+
+// component
+
+button, a, .fa {
+    cursor: pointer;
+}
+
+.text-decoration-auto {
+    text-decoration: auto !important;
+}
+
+// Variables
+:root {
+    // --headerHeight: 4rem;
+    // --sidebarWidth: 4rem
+}
+
+// Sidebar SCSS
+.app-aside {}
+
+// modal centered
+// .modal-body {
+//     height: calc(100vh - 200px);
+//     overflow-y: auto;
+// }
+
+// Component Level
+.app-page {
+    padding-top: var(--headerHeight);
+    padding-left: var(--sidebarWidth);
+    margin: 0.5rem;
+
+    .ext-actions {
+        display: contents;
+    }
+}
+
+// Looper Styles
+.page-inner {
+  padding: 0.875rem;
+}
+
+.text-danger {
+    color: #ff0000 !important;
+}
+
+.text-warning {
+    color: #fd7e14 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+.text-light-yellow {
+    color: #f7d100 !important;
+}

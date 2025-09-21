@@ -1,0 +1,196 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Dashboard",
+      "key": "dashboard",
+      "icon": "fa fa-home",
+      "route": "/app/dashboard"
+    },
+    {
+      "name": "Capital Table",
+      "key": "capitalTable",
+      "icon": "fa fa-table",
+      "children": [
+        {
+          "name": "Shareholder Master",
+          "key": "shareholderMaster",
+          "route": "/app/capital-table/shareholder-master"
+        },
+        {
+          "name": "Securities",
+          "key": "securities",
+          "route": "/app/capital-table/securities"
+        },
+        {
+          "name": "OCPS",
+          "key": "ocps",
+          "route": "/app/capital-table/ocps"
+        },
+        {
+          "name": "CCPS",
+          "key": "ccps",
+          "route": "/app/capital-table/ccps"
+        },
+        {
+          "name": "Convertible Bonds",
+          "key": "convertibleBonds",
+          "route": "/app/capital-table/convertible-bonds"
+        },
+        {
+          "name": "ESOP Pool",
+          "key": "esopPool",
+          "route": "/app/capital-table/esop-pool"
+        },
+        {
+          "name": "Balance ESOP Pool",
+          "key": "balanceEsopPool",
+          "route": "/app/capital-table/balance-esop-pool"
+        }
+      ]
+    },
+    {
+      "name": "Plan Setup",
+      "key": "planSetup",
+      "icon": "fa fa-cogs",
+      "children": [
+        {
+          "name": "View Grants",
+          "key": "viewGrants",
+          "route": "/app/plan-setup/view-grants"
+        },
+        {
+          "name": "Option Grants",
+          "key": "optionGrants",
+          "route": "/app/plan-setup/option-grants"
+        },
+        {
+          "name": "Generate Reports",
+          "key": "generateReports",
+          "route": "/app/plan-setup/generate-reports"
+        },
+        {
+          "name": "Options lapse or forfeited",
+          "key": "optionsLapseOrForfeited",
+          "route": "/app/plan-setup/options-lapse-or-forfeited"
+        },
+        {
+          "name": "Exercise",
+          "key": "exercise",
+          "route": "/app/plan-setup/exercise"
+        },
+        {
+          "name": "Update Grants",
+          "key": "updateGrants",
+          "route": "/app/plan-setup/update-grants"
+        },
+        {
+          "name": "Modify Option Grants",
+          "key": "modifyOptionGrants",
+          "route": "/app/plan-setup/modify-option-grants"
+        }
+      ]
+    },
+    {
+      "name": "Administration",
+      "key": "administration",
+      "icon": "fa fa-briefcase",
+      "children": [
+        {
+          "name": "Employee Master",
+          "key": "employeeMaster",
+          "route": "/app/administration/employee-master"
+        },
+        {
+          "name": "Update Employee Master",
+          "key": "updateEmployeeMaster",
+          "route": "/app/administration/update-employee-master"
+        },
+        {
+          "name": "Update User Master",
+          "key": "updateUserMaster",
+          "route": "/app/administration/update-user-master"
+        },
+        {
+          "name": "Grant Letters",
+          "key": "grantLetters",
+          "route": "/app/administration/grant-letters"
+        }
+      ]
+    },
+    {
+      "name": "Reporting",
+      "key": "reporting",
+      "icon": "fa fa-bar-chart",
+      "children": [
+        {
+          "name": "Risk Free Rate",
+          "key": "riskFreeRate",
+          "route": "/app/reporting/risk-free-rate"
+        },
+        {
+          "name": "Market Data",
+          "key": "marketData",
+          "route": "/app/reporting/market-data"
+        },
+        {
+          "name": "ESOP Cost",
+          "key": "esopCost",
+          "route": "/app/reporting/esop-cost"
+        },
+        {
+          "name": "Grant Report",
+          "key": "grantReport",
+          "route": "/app/reporting/grant-report"
+        },
+        {
+          "name": "ESOP Cost PL",
+          "key": "esopCostPl",
+          "route": "/app/reporting/esop-cost-pl"
+        },
+        {
+          "name": "Options Summary Report",
+          "key": "optionsSummaryReport",
+          "route": "/app/reporting/options-summary-report"
+        },
+        {
+          "name": "Options Cost Report",
+          "key": "optionsCostReport",
+          "route": "/app/reporting/options-cost-report"
+        },
+        {
+          "name": "Modified Cost",
+          "key": "modifiedCost",
+          "route": "/app/reporting/modified-cost"
+        },
+        {
+          "name": "Transaction Report",
+          "key": "transactionReport",
+          "route": "/app/reporting/transaction-report"
+        },
+        {
+          "name": "Test Dash Report",
+          "key": "testDashReport",
+          "route": "/app/reporting/test-dash-report"
+        }
+      ]
+    },
+    {
+      "name": "Employee Portal",
+      "key": "employeePortal",
+      "icon": "fa fa-user-circle",
+      "children": [
+        {
+          "name": "My Grants",
+          "key": "myGrants",
+          "route": "/app/employee-portal/my-grants"
+        },
+        {
+          "name": "Grant Letters",
+          "key": "employeeGrantLetters",
+          "route": "/app/employee-portal/grant-letters"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1148 @@
+<div class="row m-0">
+  <div class="col-12 p-0 custom-table-with-pagination" id="custom-table-with-client-pagination">
+    <ng-container *ngIf="(['xs', 'sm', 'md'].indexOf(mediaBreakPoint) === -1)">
+      <ng-container *ngIf="tableDataWithActions?.tableData?.headerContent">
+        <div class="row m-0 this scrollable-body table-layer custom-simple-table"
+          [ngClass]="{'dictionary-border': tableDataWithActions['tableName'] === 'dataDictionary','QA-noBorder':tableDataWithActions['tableName'] === 'qualityAssurance','alerts-border': tableDataWithActions['tableName'] === 'alert' }">
+          <table class="table table-bordered" style="width: 100%; border-bottom:none !important" id="simple-table-with-pagination" aria-label="simple-table-with-pagination"
+            [ngClass]="{'table-with-actions': tableDataWithActions['tableActions']['enableActions'],'dictionary': tableDataWithActions['tableName'] === 'dataDictionary','QA-noBorder':tableDataWithActions['tableName'] === 'qualityAssurance' }">
+            <thead >
+              <tr class="external-actions border-right"
+                [ngClass]="{'dictionary-head': tableDataWithActions['tableName'] === 'dataDictionary','QA-none': tableDataWithActions['tableName'] === 'qualityAssurance','d-none': tableDataWithActions['tableName'] === 'alert' }"
+                *ngIf="!tableDataWithActions['hideExternal']">
+                <th style="max-height: 30px;padding: 0px !important;" [attr.colspan]="((!tableDataWithActions['tableActions']['externalActions'] ||
+              !tableDataWithActions['tableActions']['externalActions'].length) ? displayColumns.length + 2 : 
+              (tableDataWithActions['paramters_available'] ? displayColumns.length + 2 : displayColumns.length + 1 ))" scope="col">
+                  <div class="row m-0"
+                    [ngClass]="{'dictionary-search': tableDataWithActions['tableName'] === 'dataDictionary' }"
+                    style="height: 100%; background-color: #fff;">
+                    <div class="col px-0 table-header-filter" style="max-width: 28%;"
+                      *ngIf="tableDataWithActions['show_column_filter']">
+                      <ng-select [(ngModel)]="displayColumns" style="width: 100%;" class="d-inline-block"
+                        [items]="tableDataWithActions['tableData']['headerContent']" id="columnFiltration" appendTo="body"
+                        placeholder="Select Columns" [clearable]="false" [multiple]="true"
+                        (ngModelChange)="onChangeInColumnFilter()" [searchable]="metaData['enableSearchable']">
+                        <ng-template ng-header-tmp>
+                          <a href="javascript:void(0)" class="btn btn-link" (click)="ngSelectSeletionType('select_all')" >Select All</a>
+                          <a href="javascript:void(0)" (click)="ngSelectSeletionType('deselect_all')" class="btn btn-link" >Deselect All</a>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                          <div class="ng-value" *ngFor="let item of items | slice:0:2">
+                            <span class="ng-value-icon left" (click)="clear(item)" aria-hidden="true"
+                              *ngIf="!item['disabled']">×</span>
+                            <span class="ng-value-label">{{item?.label}}</span>
+                          </div>
+                          <div class="ng-value badge-value" *ngIf="items.length > 2">
+                            <span class="ng-value-label">+{{items.length - 2}}</span>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                    <div class="col px-0" [ngStyle]="{'visibility': tableDataWithActions['hideSearch'] ? 'hidden':''}">
+                      <input class="form-control filter-item" autocomplete="off" type="text" name="searchField" id="{{'global_search_field_' + (customId ? customId : '')}}"
+                        style="height: 100%;" placeholder="Search" [(ngModel)]="searchTerm">
+                      <span class="oi oi-magnifying-glass search-icon"></span>
+                      <span class="view-icons_container d-none">
+                        <ng-container
+                          *ngFor="let each_action of tableDataWithActions.tableActions.externalView; let ind = index;">
+                          <em *ngIf="each_action['type'] == 'tableView'"
+                            [ngClass]="{'selected': selectedView === 'tableView'}" class="icon-icons8-list-100 mr-3"
+                            (click)="emitAction(each_action); selectedView = 'tableView'"></em>
+                          <em *ngIf="each_action['type'] == 'calendarView'"
+                            [ngClass]="{'selected': selectedView === 'calendarView'}"
+                            class="icon-icons8-page-properties-report-100 mr-3"
+                            (click)="emitAction(each_action); selectedView = 'calendarView'"></em>
+                        </ng-container>
+                      </span>
+                    </div>
+                    <div class="ext-actions px-0" *ngIf="!tableDataWithActions?.hideExtActions">
+                      <ng-container 
+                        *ngFor="let each_action of tableDataWithActions.tableActions.externalActions; let ind = index;">
+                        <!-- <div *ngIf="each_action['type'] === 'auto_refresh'" class="d-inline-block" [id]="each_action['type']">
+                          <kl-auto-refresh [action_interval]="each_action" (refreshEmitter)="handleRefreshEvent($event)"></kl-auto-refresh>
+                        </div>   -->
+                        <em  [id]="each_action['type']" *ngIf="each_action['type'] === 'table_grid_view'" style=" padding-right: 10px;">
+                          <button type="button" style="border: 0px;" class="btn px-2 py-0 view"
+                            placement="bottom" ngbTooltip="Card view" container="body" (click)="emitAction(each_action)"
+                            class="each-active-switch-button-card">
+                            <em class="fa fa-th view-icon"></em>
+                          </button>
+                        </em>
+                        <em  [id]="each_action['type']" *ngIf="each_action['type'] == 'tableView'" style=" padding-right: 10px;">
+                          <button type="button" style="border: 0px;" class="btn px-2 py-0 view" [disabled]="each_action['disabled']"
+                            placement="bottom" ngbTooltip="Table view" container="body" (click)="emitAction(each_action)"
+                            class="each-active-switch-button-card">
+                            <em class="fa fa-table view-icon" ></em>
+                          </button>
+                        </em>
+                        <em  [id]="each_action['type']" *ngIf="each_action['type'] == 'tileView'" style=" padding-right: 10px;">
+                          <button type="button" style="border: 0px;" class="btn px-2 py-0 view" [disabled]="each_action['disabled']"
+                            placement="bottom" ngbTooltip="Card view" container="body" (click)="emitAction(each_action)"
+                            class="each-active-switch-button-card" >
+                            <em class="fa fa-th view-icon"></em>
+                          </button>
+                        </em>
+                        <em  [id]="each_action['type']" *ngIf="each_action['type'] == 'download'"
+                          class="{{each_action['icon-class'] || ' btn icon-icons8-downloading-updates-100 '}} download-icon"
+                          (click)="emitAction(each_action)"></em>
+                        <a href="javascript:void(0)" [id]="each_action['type']" *ngIf="each_action['type'] == 'audit_logs'"
+                          (click)="emitAction(each_action)" class="btn btn-link pt-2"><em class="mr-2 fa fa-file-text-o"></em>{{each_action['label']}}</a>
+                        <em  [id]="each_action['type']" *ngIf="each_action['type'] == 'upload'"
+                          class="download-icon btn fa icon-icons8-downloading-updates-100 upload-icon px-2"
+                          (click)="emitAction(each_action)"></em>
+                        <a href="javascript:void(0)"  [id]="each_action['type']" *ngIf="each_action['type'] == 'refresh'"
+                          (click)="emitAction(each_action)" class="btn btn-link pt-2">{{each_action['label']}}
+                          <em class="icon-icons8-replace-100"></em>
+                        </a>
+                        <a href="javascript:void(0)"  [id]="each_action['type']" *ngIf="each_action['type'] == 'custom-action'"
+                          (click)="emitAction(each_action)" class="btn btn-link pt-2">{{each_action['label']}}
+                          <em *ngIf="each_action['iconClass']" [ngClass]="each_action['iconClass']"></em>
+                        </a>
+                        <div [ngClass]="{'cursor-not-allowed': each_action['disabled']}" class="d-inline-block"
+                          style="height: 100%;"
+                          ngbTooltip="{{ !each_action['disabled'] ? each_action['des'] || each_action['label'] : each_action['disabled_des'] || each_action['label'] }}"
+                          placement="top" container="body"  [id]="each_action['type']" *ngIf="each_action['type'] == 'btn_link'"
+                          [disableTooltip]="!each_action['disabled']">
+                          <button href="javascript:void(0)" (click)="emitAction(each_action)"
+                            class="btn btn-link pt-2 px-2" [disabled]="each_action['disabled']">
+                            {{each_action['label']}}
+                            <em class="{{ each_action['icon-class'] || ' '}} export-icons"></em>
+                          </button>
+                        </div>
+                        <div
+                          ngbTooltip="{{ !each_action['disabled'] ? each_action['des'] || each_action['label'] : each_action['disabled_des'] || each_action['label'] }}"
+                          placement="top" container="body" *ngIf="metaData['buttonTypes'].includes(each_action['type'])"
+                          class="d-inline-block" style="height: 100%;" [disableTooltip]="!each_action['disabled']">
+                          <button style="height: 100%;"  [id]="each_action['type']"
+                            [disabled]="selectedView === 'calendarView' || each_action['disabled']" type="button"
+                            class="btn {{each_action['custom_class'] || 'btn-primary'}}" (click)="emitAction(each_action)"
+                            [ngStyle]="{'width.px': each_action.width || 'auto'}">
+                            <em *ngIf="each_action['type'] == 'import'"
+                              class="icon-icons8-upload-100"></em>
+                            <em *ngIf="each_action['type'] == 'addnew'"
+                              class="fa fa-plus-circle"></em>
+                            <em *ngIf="each_action['type'] == 'general'"
+                              class="{{each_action['icon-class'] || ''}}"></em>
+                            <em *ngIf="each_action['type'] == 'view'" class="fa fa-eye"></em>
+                            <span *ngIf="!(['xs', 'sm'].indexOf(mediaBreakPoint) > -1) || ((['xs', 'sm'].indexOf(mediaBreakPoint) > -1) && !each_action['icon-class'])">{{each_action['label']}}</span>
+                          </button>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <thead
+              [ngClass]="{'d-none': selectedView === 'calendarView','dictionary-color': tableDataWithActions['tableName'] === 'dataDictionary','QA-bg':tableDataWithActions['tableName'] === 'qualityAssurance','alert-header': tableDataWithActions['tableName'] === 'alert'}"
+              id="simple_table_header">
+        <tr title="{{tooltipContent}}" [ngClass]="{'border-top':tableDataWithActions?.tableActions?.externalActions?.length}" (mouseover)="mouseover($event, displayColumns)" (mouseout)="mouseout()">
+                <th *ngIf="tableDataWithActions.enableRowExpand" class="row-expand" scope="col"></th>
+                <th *ngFor="let eachHeader of displayColumns" [ngStyle]="eachHeader['inLineStyle']"
+                  (click)="sortBodyContent(eachHeader)"[attr.colspan]="eachHeader['colspan']" scope="col"
+            [attr.rowspan]="eachHeader['rowspan']"
+          [ngClass]="{'cursor-pointer': tableDataWithActions['enable_sort']}">
+                    <ng-container
+                      *ngIf="['check-box'].includes(eachHeader['type']) && eachHeader['no_label']; then noLabel else Label">
+                    </ng-container>
+                    <ng-template #noLabel>
+                      <input type="checkbox" name="check-box" class="check-mark" (change)="emitAction({'type': 'check-box-change', 'is_header': true}, undefined, undefined, 
+                    eachHeader[eachHeader['key'] || eachHeader['value']])"
+                        [checked]="eachHeader[eachHeader['key'] || eachHeader['value']]"
+                        [(ngModel)]="eachHeader[eachHeader['key'] || eachHeader['value']]">
+                    </ng-template>
+                    <ng-template #Label>
+            <span [ngClass]="{'dropdown': eachHeader['label'] === 'Metric Type'}" class="dropdown"
+                      title="{{eachHeader['label']}}">{{eachHeader['label']}}
+                      <div class="dropdown-content">
+                        <p >Sort A to Z</p>
+                        <p >Sort Z to A</p>
+                        <p >Select All
+                          Transparent Information & F
+                          Employee Diversity & Inclusi
+                          Incorporation of Environme
+                        </p>
+                      </div>
+                      <ng-container *ngIf="tableDataWithActions['enable_sort'] && !(eachHeader?.hide_sort)">
+                          <ng-container
+                            *ngIf="(sortData.key === eachHeader['key']) || (sortData.key === eachHeader['value']);else sortBoth">
+                            <span class="fa {{sortData.asc ? 'fa-sort-up':'fa-sort-down'}}"></span>
+                          </ng-container>
+                          <ng-template #sortBoth>
+                            <span class="fa fa-sort"></span>
+                          </ng-template>
+                        </ng-container>
+                      </span>
+                    </ng-template>
+                  </th>
+                  <th
+                    *ngIf="tableDataWithActions['tableActions']['enableActions']  && tableDataWithActions['tableActions']['actions'].length"
+                    class="action-header" [ngStyle]="{'min-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20),
+                  'max-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20)}"
+                  [style.width]="tableDataWithActions['actionsWidth'] ? tableDataWithActions['actionsWidth'] + 'px !important' : 0" scope="col">
+                    {{ tableDataWithActions['showActionsLabel'] ? 'Actions' : '' }}
+                  </th>
+                </tr>
+                <tr [ngClass]="{'border-top':tableDataWithActions?.tableActions?.externalActions?.length}" class="filters-row border-bottom" title="{{tooltipContent}}" (mouseover)="mouseover($event, displayColumns)" (mouseout)="mouseout()">
+                  <th *ngIf="tableDataWithActions.enableRowExpand" class="row-expand" scope="col"></th>
+                  <th *ngFor="let eachHeader of displayColumns" style="padding: 0px !important;"
+                    [attr.colspan]="eachHeader['colspan']"
+                    [ngStyle]="{'background-color': !eachHeader.enable_column_search ? '#f9f9f9' : 'white'}"
+                    [attr.rowspan]="eachHeader['rowspan']" scope="col">
+                    <div *ngIf="eachHeader?.enable_column_search" class="m-1"
+                      [ngClass]="{'filter-date': ['date_time_range','date_range','date','time'].indexOf(eachHeader?.header_type)>-1}">
+                      <ng-container *ngTemplateOutlet="filterTemplate; context:{ filterContent: eachHeader }">
+                      </ng-container>
+                    </div>
+                    <div *ngIf="!eachHeader?.enable_column_search" style="background-color: #f9f9f9;"></div>
+                  </th>
+                  <th *ngIf="tableDataWithActions?.tableActions?.actionsFilter?.show" style="padding: 0px !important;"
+                    [ngStyle]="{'background-color': 'white'}" scope="col">
+                    <div class="m-1">
+                      <ng-container *ngTemplateOutlet="actionSearchTemplate; context:{ filterContent: tableDataWithActions?.tableActions }">
+                      </ng-container>
+                    </div>
+                  </th>
+                </tr>
+                <tr *ngIf="tableDataWithActions['paramters_available']" title="{{tooltipContent}}" (mouseover)="mouseover($event, displayColumns)" (mouseout)="mouseout()">
+                  <ng-container *ngFor="let eachHeader of displayColumns">
+                    <ng-container *ngIf="eachHeader.parameters">
+                      <ng-container *ngFor="let param of eachHeader.parameters">
+                        <th [ngStyle]="eachHeader['inLineStyle']" scope="col">
+                          <span title="{{param['label']}}">{{param.label}}</span>
+                        </th>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <th
+                    *ngIf="tableDataWithActions['tableActions']['enableActions']  && tableDataWithActions['tableActions']['actions'].length"
+                    class="action-header" [ngStyle]="{'min-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20),
+                  'max-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20)}"
+                  [style.width]="tableDataWithActions['actionsWidth'] ? tableDataWithActions['actionsWidth'] + 'px !important' : 0" scope="col"></th>
+                </tr>
+              </thead>
+              <ng-container
+                *ngIf="tableDataWithActions['table_type'] === 'infinite_scroll' && metaData['virtual_scroll_status']">
+                <cdk-virtual-scroll-viewport class="inheritClass infinte-scroll-body" itemSize="25"
+                  minBufferPx="{{metaData['minBufferPx']}}" maxBufferPx="{{metaData['maxBufferPx']}}" [ngStyle]="{'height': metaData['scroll_height_px'],
+                  'min-height.px': 40}">
+                  <tbody
+                    [ngClass]="{'d-none': selectedView === 'calendarView', 'tbody-disabled': tableDataWithActions['loader_status'],'QA-wordwrap':tableDataWithActions['tableName'] === 'qualityAssurance'}"
+                    infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+                    [infiniteScrollContainer]="'.infinte-scroll-body'" [scrollWindow]="false" [fromRoot]="true"
+                    id="ScrollableSimpleTableBody">
+                    <ng-container *ngIf="filteredData">
+                      <ng-container *cdkVirtualFor="let eachItem of filteredData; let rowIndex=index">
+                        <tr title="{{tooltipContent}}" (mouseover)="mouseover($event, eachItem)" (mouseout)="mouseout()" [ngClass]="{'selected-row' : (tableDataWithActions[tableDataWithActions.dependentKey] === eachItem[tableDataWithActions.dependentKey] && 
+                        tableDataWithActions[tableDataWithActions.dependentKey])}"
+                          class="{{eachItem['rowClass'] || tableDataWithActions['rowClass'] || ''}}"
+                          (click)="onEachRowClick(rowIndex, eachItem)">
+                          <td style="padding: 0px !important;"
+                            [attr.colspan]="displayColumns ? (displayColumns.length + 1) : 1">
+                            <table class="inner-table" aria-hidden="true">
+                              <tbody>
+                                <tr class="{{ eachItem['rowStyle'] || ''}}">
+                                  <ng-container
+                                    *ngTemplateOutlet="eachRowTemplate; context:{ eachItem: eachItem, rowIndex: rowIndex  }">
+                                  </ng-container>
+                                </tr>
+                                <tr
+                                  *ngIf="(tableDataWithActions.enableRowExpand && tableDataWithActions.expandedRowIndex === rowIndex)">
+                                  <td class="expanded-row-content"
+                                    [attr.colspan]="displayColumns ? (displayColumns.length + 1) : 1">
+                                    <ng-container
+                                      *ngTemplateOutlet="rowExpandTemplate; context:{ eachItem: eachItem, rowIndex: rowIndex  }">
+                                    </ng-container>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!filteredData || !filteredData.length">
+                      <tr>
+                        <td [attr.colspan]="displayColumns ? (displayColumns.length + 1) : 1"
+                          class="text-center no-data-available">
+                          <span >
+                            No data available.
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </cdk-virtual-scroll-viewport>
+              </ng-container>
+              <ng-container *ngIf="tableDataWithActions['table_type'] === 'client_side' ">
+                <tbody
+            [ngClass]="{'d-none': selectedView === 'calendarView','dictionary-tab': tableDataWithActions['tableName'] === 'dataDictionary','pen-wordwrap':tableDataWithActions['tableName'] === 'qualityAssurance','alert-body': tableDataWithActions['tableName'] === 'alert','QA-wordwrap': tableDataWithActions['tableName'] === 'alert'}"
+                  [ngStyle]="{'max-height': maxHeight ? metaData['maxHeightInPx'] : calculatedHeight ? 'calc(100vh - ' + calculatedHeight + 'px )' : '300px' }"
+                  id="ScrollableSimpleTableBody">
+                  <ng-container
+                    *ngIf="seggregatedTableContent[metaData['counter'] - 1] && seggregatedTableContent[metaData['counter'] - 1].length">
+                    <!-- | filterTable: filterObject  custom filter needs to added-->
+                    <tr *ngFor="let eachItem of seggregatedTableContent[metaData['counter'] - 1]; let rowIndex=index" title="{{tooltipContent}}" (mouseover)="mouseover($event, eachItem)" (mouseout)="mouseout()"
+                      [ngClass]="{'selected-row' : (tableDataWithActions[tableDataWithActions.dependentKey] === eachItem[tableDataWithActions.dependentKey] && 
+                        tableDataWithActions[tableDataWithActions.dependentKey])}"
+                      class="{{eachItem['rowClass'] || tableDataWithActions['rowClass'] || ''}}"
+                      (click)="onEachRowClick(rowIndex, eachItem)">
+                      <ng-container
+                        *ngTemplateOutlet="eachRowTemplate; context:{ eachItem: eachItem, rowIndex: rowIndex  }">
+                      </ng-container>
+                    </tr>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="!seggregatedTableContent[metaData['counter'] - 1] || !seggregatedTableContent[metaData['counter'] - 1].length">
+                    <tr>
+                      <td [attr.colspan]="displayColumns ? (displayColumns.length + 1) : 1"
+                        class="text-center no-data-available">
+                        <span >
+                          No data available.
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </ng-container>
+  
+          </table>
+        </div>
+        <div class="row m-0 table-footer"
+          [ngClass]="{'QA-none': tableDataWithActions['tableName'] === 'qualityAssurance' || tableDataWithActions['hideTableFooter']}"
+          *ngIf=" ['client_side',  'infinite_scroll'].includes(tableDataWithActions['table_type'])">
+          <table class="table table-bordered" style="width: 100%; border-top:none !important;border-bottom:none !important;" aria-hidden="true"
+            [ngClass]="{'table-with-actions': tableDataWithActions['tableActions']['enableActions']}">
+            <tbody [ngClass]="{'d-none': selectedView === 'calendarView'}">
+              <tr class="footer-hover">
+                <td class="p-0 last-row d-flex justify-content-between border-top">
+                  <ng-container *ngIf="tableDataWithActions['table_type'] === 'client_side'">
+                    <div class="d-flex dropdown text-muted">
+                      <div class="d-flex justify-content-between p-1 pr-3 border-right">
+                        <span class="p-2 footer-label">Items Per Page</span>
+                        <ng-select name="typeofElement" [items]="metaData['display_options']"
+                          placeholder="Select No of items to display" [clearable]="false" dropdownPosition="top"
+                          [(ngModel)]="metaData['no_of_items_to_display']" bindValue="value" bindLabel="label"
+                          (ngModelChange)="onChangeInDisplay()" id="itemPerPage" appendTo="body"
+                          [searchable]="metaData['enableSearchable']" >
+                        </ng-select>
+                      </div>
+                      <div class="d-flex justify-content-between p-1 px-3">
+                        <span class="pt-2 footer-label">
+                          {{(metaData['counter'] - 1) * (metaData['no_of_items_to_display']) || 1 }} -
+                          {{(metaData['counter'] - 1) * (metaData['no_of_items_to_display'])  + metaData['no_of_items_to_display']}}
+                          Items of {{filteredData.length}}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="float-right border-left">
+                      <button class="btn btn-link border-right text-decoration-auto pt-2 mx-2"
+                        [disabled]="metaData['counter'] === 1 || !seggregatedTableContent.length"
+                        (click)="onChangeInCounter('decrease')" placement="top" ngbTooltip="Previous" container="body"  >
+                        <em class="fa fa-chevron-left pt-2" style="font-size: 12px;"></em>
+                        Prev
+                      </button>
+                      <button class="btn btn-link text-decoration-auto pt-2 mx-2" placement="top" ngbTooltip="Next" container="body"
+                        [disabled]="metaData['counter'] === seggregatedTableContent.length || !seggregatedTableContent.length"
+                        (click)="onChangeInCounter('increase')"  >
+                        Next<em class="fa fa-chevron-right pl-2 pt-2" style="font-size: 12px;"></em>
+                      </button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="tableDataWithActions['table_type'] === 'infinite_scroll'">
+                    <div class="d-flex dropdown text-muted border-top">
+                      <div class="float-left p-2 py-3 text-label">
+                        <span>Showing {{filteredData ? filteredData.length : 0 }} records of
+                          {{tableDataWithActions['total_no'] || 0}}</span>
+                      </div>
+                    </div>
+                    <div class="float-right p-3 text-label" *ngIf="tableDataWithActions['loader_status']">
+                      <span >Fetching records.... <em class="fa fa-spinner fa-spin"></em></span>
+                    </div>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </ng-container>
+    <!-- Mobile Device -->
+    <ng-container *ngIf="(['xs', 'sm', 'md'].indexOf(mediaBreakPoint) > -1)">
+      <ng-container *ngIf="tableDataWithActions?.tableData?.headerContent">
+        <div class="row no-gutters">
+          <div class="col px-0 border mobileSearchBar" *ngIf="tableDataWithActions['table_type'] === 'client_side'">
+            <input class="form-control filter-item" autocomplete="off" type="text" name="searchField"
+              style="height: 100%;" placeholder="Search" [(ngModel)]="searchTerm" >
+            <span class="oi oi-magnifying-glass search-icon"></span>
+          </div>
+          <em *ngIf="tableDataWithActions['table_type'] === 'infinite_scroll'" class="ml-auto" style="padding-right: 10px;">
+            <button type="button" style="border: 0px;" class="btn px-2 py-0 view"
+              container="body" (click)="openServerSearch()">
+              <em class="fa fa-filter"></em>
+            </button>
+          </em>
+          <div class="px-0" *ngIf="!tableDataWithActions['hideExternal'] && tableDataWithActions['tableActions']['enableActions']">
+            <ng-container *ngFor="let each_action of tableDataWithActions.tableActions.externalActions; let ind = index;">
+              <em *ngIf="each_action['type'] === 'table_grid_view'" style=" padding-right: 10px;">
+                <button type="button" style="border: 0px;" class="btn px-2 py-0 view" 
+                  container="body" (click)="emitAction(each_action)" class="each-active-switch-button-card">
+                  <em class="fa fa-th view-icon"></em>
+                </button>
+              </em>
+              <em *ngIf="each_action['type'] == 'tableView'" style=" padding-right: 10px;">
+                <button type="button" style="border: 0px;" class="btn px-2 py-0 view" [disabled]="each_action['disabled']"
+                   container="body" (click)="emitAction(each_action)"
+                  class="each-active-switch-button-card">
+                  <em class="fa fa-table view-icon"></em>
+                </button>
+              </em>
+              <em *ngIf="each_action['type'] == 'tileView'" style=" padding-right: 10px;">
+                <button type="button" style="border: 0px;" class="btn px-2 py-0 view" [disabled]="each_action['disabled']"
+                  container="body" (click)="emitAction(each_action)"
+                  class="each-active-switch-button-card">
+                  <em class="fa fa-th view-icon"></em>
+                </button>
+              </em>
+              <em *ngIf="each_action['type'] == 'download'"
+                class="{{each_action['icon-class'] || ' btn icon-icons8-downloading-updates-100 '}} download-icon"
+                (click)="emitAction(each_action)"></em>
+              <em *ngIf="each_action['type'] == 'upload'"
+                class="download-icon btn fa icon-icons8-downloading-updates-100 upload-icon px-2"
+                (click)="emitAction(each_action)"></em>
+              <a href="javascript:void(0)" *ngIf="each_action['type'] == 'refresh'" (click)="emitAction(each_action)"
+                class="btn btn-link pt-2">
+                <em class="icon-icons8-replace-100"></em>
+              </a>
+              <a href="javascript:void(0)" *ngIf="each_action['type'] == 'custom-action'" (click)="emitAction(each_action)"
+                class="btn btn-link pt-2">{{each_action['label']}}
+                <em *ngIf="each_action['iconClass']" [ngClass]="each_action['iconClass']"></em>
+              </a>
+              <div
+                ngbTooltip="{{ !each_action['disabled'] ? each_action['des'] || each_action['label'] : each_action['disabled_des'] || each_action['label'] }}"
+                placement="top" container="body" *ngIf="metaData['buttonTypes'].includes(each_action['type'])"
+                class="d-inline-block" style="height: 100%;" [disableTooltip]="!each_action['disabled']">
+                <button style="height: 100%; border-radius: 3px" [disabled]="selectedView === 'calendarView' || each_action['disabled']"
+                  type="button" class="btn {{each_action['custom_class'] || 'btn-primary'}}" (click)="emitAction(each_action)"
+                  [ngStyle]="{'width.px': each_action.width || '50'}">
+                  <em *ngIf="each_action['type'] == 'import'" class="float-right icon-icons8-upload-100 action-icons"></em>
+                  <em *ngIf="each_action['type'] == 'addnew'" class="float-right fa fa-plus-circle action-icons"></em>
+                  <em *ngIf="each_action['type'] == 'general'"
+                    class="float-right {{each_action['icon-class'] || ''}} action-icons"></em>
+                  <em *ngIf="each_action['type'] == 'view'" class="float-right fa fa-eye action-icons"></em>
+                  <span *ngIf="each_action['type'] == 'general' && !each_action['icon-class']">{{each_action['label']}}</span>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <ng-container *ngIf="tableDataWithActions['table_type'] === 'client_side'">
+          <div
+            [ngClass]="{'d-none': selectedView === 'calendarView','dictionary-tab': tableDataWithActions['tableName'] === 'dataDictionary','pen-wordwrap':tableDataWithActions['tableName'] === 'qualityAssurance','alert-body': tableDataWithActions['tableName'] === 'alert','QA-wordwrap': tableDataWithActions['tableName'] === 'alert'}"
+            class="mobileViewCLientTable"
+            [ngStyle]="{'max-height': maxHeight ? metaData['maxHeightInPx'] : mobileCalculatedHeight ? 'calc(100vh - ' + mobileCalculatedHeight + 'px )' : '300px' }"
+            id="ScrollableSimpleTableBody">
+            <ng-container
+              *ngIf="seggregatedTableContent[metaData['counter'] - 1] && seggregatedTableContent[metaData['counter'] - 1].length">
+              <ng-container *ngIf="tableDataWithActions?.tableData?.headerContent" >
+                <ng-container *ngFor="let eachItem of seggregatedTableContent[metaData['counter'] - 1]; let ind = index">
+                  <ng-container
+                    *ngTemplateOutlet="mobileTableTemplate; context:{ eachItem: eachItem, rowIndex: ind  }">
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container
+              *ngIf="!seggregatedTableContent[metaData['counter'] - 1] || !seggregatedTableContent[metaData['counter'] - 1].length">
+              <div class="text-center no-data-available mobile-no-data-available border" >
+                No data available.
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="tableDataWithActions['table_type'] === 'infinite_scroll' && metaData['virtual_scroll_status']">
+          <cdk-virtual-scroll-viewport class="inheritClass infinte-scroll-body" itemSize="25"
+            minBufferPx="{{metaData['minBufferPx']}}" maxBufferPx="{{metaData['maxBufferPx']}}" [ngStyle]="{'height': metaData['scroll_height_px'],
+                        'min-height.px': 60}">
+            <div
+              [ngClass]="{'d-none': selectedView === 'calendarView', 'tbody-disabled': tableDataWithActions['loader_status'],'QA-wordwrap':tableDataWithActions['tableName'] === 'qualityAssurance'}"
+              infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+              [infiniteScrollContainer]="'.infinte-scroll-body'" [scrollWindow]="false" [fromRoot]="true"
+              id="ScrollableSimpleTableBody">
+              <ng-container *ngIf="filteredData">
+                <ng-container *cdkVirtualFor="let eachItem of filteredData; let ind=index">
+                  <ng-container
+                    *ngTemplateOutlet="mobileTableTemplate; context:{ eachItem: eachItem, rowIndex: ind  }">
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="!filteredData || !filteredData.length">
+                <div class="text-center no-data-available border mobile-no-data-available" >
+                  No data available.
+                </div>
+              </ng-container>
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-container *ngIf="tableDataWithActions['table_type'] === 'infinite_scroll'">
+          <div class="border border-2" style="background-color: #FFFFFF;">
+            <div class="d-flex dropdown text-muted border-top">
+              <div class="float-left p-2 py-3 text-label">
+                <span>Showing {{filteredData ? filteredData.length : 0 }} records of
+                  {{tableDataWithActions['total_no'] || 0}}</span>
+              </div>
+              <div class="float-right p-3 text-label ml-auto" *ngIf="tableDataWithActions['loader_status']">
+                <span><em class="fa fa-spinner fa-spin"></em></span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="tableDataWithActions['table_type'] === 'client_side'">
+          <div class="border border-2" style="background-color: #FFFFFF;">
+            <div class="d-flex dropdown text-muted border-right">
+              <div class="d-flex justify-content-between p-1 pr-3 border-right footer-label">
+                <ng-select name="typeofElement" [items]="metaData['display_options']"
+                  placeholder="Select No of items to display" [clearable]="false" dropdownPosition="top"
+                  [(ngModel)]="metaData['no_of_items_to_display']" bindValue="value" bindLabel="label"
+                  (ngModelChange)="onChangeInDisplay()" id="itemPerPage" appendTo="body"
+                  [searchable]="metaData['enableSearchable']">
+                </ng-select>
+              </div>
+              <div class="d-flex justify-content-between p-1 px-3">
+                <span class="pt-2">
+                  {{(metaData['counter'] - 1) * (metaData['no_of_items_to_display']) || 1 }} -
+                  {{(metaData['counter'] - 1) * (metaData['no_of_items_to_display'])  + metaData['no_of_items_to_display']}}
+                  Items of {{filteredData.length}}
+                </span>
+              </div>
+              <div class="float-right border-left ml-auto">
+                <button class="btn pl-3 pr-3 text-decoration-auto pt-2"
+                  [disabled]="metaData['counter'] === 1 || !seggregatedTableContent.length"
+                  (click)="onChangeInCounter('decrease')" placement="top" ngbTooltip="Previous" container="body" >
+                  <span> <em class="fa fa-chevron-circle-left px-2"></em></span>
+                </button>
+                <button class="btn pl-3 pr-3 text-decoration-auto pt-2" placement="top" ngbTooltip="Next" container="body"
+                  [disabled]="metaData['counter'] === seggregatedTableContent.length || !seggregatedTableContent.length"
+                  (click)="onChangeInCounter('increase')" >
+                  <span><em class="fa fa-chevron-circle-right px-2"></em></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<!-- -------------Mobile Device---------------------------------->
+
+<!-- -------------Mobile Device---------------------------------->
+
+
+<!-- Action Search Filter -->
+<ng-template #actionSearchTemplate let-filterContent="filterContent">
+  <ng-select placeholder="Select {{filterContent.actionsFilter.label}}" bindLabel="label" bindValue="value"
+    id="{{filterContent['actionsFilter']['value']}}" appendTo="body"
+    *ngIf="filterContent['actionsFilter']['type'] === 'select'" class="p-0 filters" [items]="filterContent.actionsFilter.options"
+    [(ngModel)]="filterObject[filterContent['actionsFilter']['value']]" (ngModelChange)="onChaneInColumnInput()"
+    [searchable]="metaData['enableSearchable']">
+    <ng-template ng-option-tmp let-item="item" let-index="index">
+      <div title="{{item.label}}" class="ellipsed-text">{{item.label}}</div>
+    </ng-template>
+  </ng-select>
+</ng-template>
+
+<!-- ----------------------------------------------- Column Level Search Filters Template ----------------------------------------------- -->
+
+
+<ng-template #filterTemplate let-filterContent="filterContent">
+  <input type="text" class="form-control" id="{{filterContent['key'] || filterContent['value']}}"  [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+    placeholder="Search {{filterContent.label}}" *ngIf="filterContent.header_type === 'text'"
+    (ngModelChange)="onChaneInColumnInput()">
+  <input type="number" id="{{filterContent['key'] || filterContent['value']}}"  class="form-control" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+    placeholder="Search {{filterContent.label}}" *ngIf="filterContent.header_type === 'number'"
+    (ngModelChange)="onChaneInColumnInput()" >
+  <ng-select placeholder="Select {{filterContent.label}}" bindLabel="label" bindValue="value"
+    id="{{filterContent['key'] || filterContent['value']}}" appendTo="body"
+    *ngIf="filterContent.header_type === 'select'" class="p-0 filters" [items]="filterContent.options"
+    [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]" (ngModelChange)="onChaneInColumnInput()"
+    [searchable]="metaData['enableSearchable']">
+    <ng-template ng-option-tmp let-item="item" let-index="index">
+      <div title="{{item.label}}" class="ellipsed-text">{{item.label}}</div>
+    </ng-template>
+  </ng-select>
+  <ng-select placeholder="Select {{filterContent.label}}" bindLabel="label" [multiple]="false" bindValue="value"
+    id="{{filterContent['key'] || filterContent['value']}}" appendTo="body"
+    *ngIf="filterContent.header_type === 'multiselect'" class="p-0" [items]="filterContent.options"
+    [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]" (ngModelChange)="onChaneInColumnInput()"
+    [searchable]="metaData['enableSearchable']">
+    <ng-option *ngFor="let diTag of filterContent.options" title="{{diTag.label}}" [value]="diTag.value"
+      [disabled]="diTag.disabled">
+      <div class="ellipsed-text">{{diTag.label}}</div>
+    </ng-option>
+  </ng-select>
+  <ng-container *ngIf="filterContent.header_type === 'date_range'">
+    <input class="shadow-input" id="{{filterContent['key'] || filterContent['value']}}" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+      [selectMode]="'range'" [max]="metaData.today" [owlDateTime]="dtRange1" (ngModelChange)="onChaneInColumnInput()"
+      placeholder="Select Date Range" >
+    <input class="form-control filter-date-control" placeholder="Select Date Range" readonly id="{{filterContent['key'] || filterContent['value']}}" 
+      [owlDateTimeTrigger]="dtRange1"
+      [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy'" >
+    <owl-date-time #dtRange1 [pickerType]="'calendar'"></owl-date-time>
+    <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']] && 
+    filterObject[filterContent['key'] || filterContent['value']].length"
+      (click)="onDateRangeFilterClear($event, filterContent,[])"></span>
+  </ng-container>
+  <ng-container *ngIf="filterContent.header_type === 'date_time_range'">
+    <input class="shadow-input" id="{{filterContent['key'] || filterContent['value']}}"  [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+      [selectMode]="'range'" [max]="metaData.today" [owlDateTime]="dtRange2" (ngModelChange)="onChaneInColumnInput()"
+      placeholder="Select Date Range">
+    <input id="{{filterContent['key'] || filterContent['value']}}"  class="form-control filter-date-control" placeholder="Select Date Range" readonly
+      [owlDateTimeTrigger]="dtRange2" [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy HH:mm'" >
+    <owl-date-time #dtRange2></owl-date-time>
+    <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']] && 
+      filterObject[filterContent['key'] || filterContent['value']].length"
+      (click)="onDateRangeFilterClear($event, filterContent,[])"></span>
+  </ng-container>
+  <ng-container *ngIf="filterContent.header_type === 'date'">
+    <input id="{{filterContent['key'] || filterContent['value']}}"  class="shadow-input" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+      [max]="metaData.today" [owlDateTime]="dtRange3" (ngModelChange)="onChaneInColumnInput()"
+      placeholder="Select Date Range" >
+    <input id="{{filterContent['key'] || filterContent['value']}}"  class="form-control filter-date-control" placeholder="Select Date Range" readonly
+      [owlDateTimeTrigger]="dtRange3"
+      [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy'" >
+    <owl-date-time #dtRange3 [pickerType]="'calendar'"></owl-date-time>
+    <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']]"
+      (click)="onDateRangeFilterClear($event, filterContent,null)"></span>
+  </ng-container>
+  <ng-container *ngIf="filterContent.header_type === 'time'">
+    <input class="shadow-input" id="{{filterContent['key'] || filterContent['value']}}"  [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+      [max]="metaData.today" [owlDateTime]="dtRange4" (ngModelChange)="onChaneInColumnInput()"
+      placeholder="Select Time Range" >
+    <input id="{{filterContent['key'] || filterContent['value']}}"  class="form-control filter-date-control" placeholder="Select Time Range" readonly
+      [owlDateTimeTrigger]="dtRange4"
+      [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'HH:mm'" >
+    <owl-date-time #dtRange4 [pickerType]="'timer'"></owl-date-time>
+    <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']]"
+      (click)="onDateRangeFilterClear($event, filterContent,null)"></span>
+  </ng-container>
+</ng-template>
+
+
+<!-------------------------------------------------- Each table row content -------------------------------->
+<ng-template #eachRowTemplate let-eachItem="eachItem" let-rowIndex="rowIndex">
+  <td *ngIf="tableDataWithActions.enableRowExpand" class="row-expand"><span (click)="onRowClick(rowIndex, eachItem)"
+      *ngIf="eachItem?.expandData?.length || eachItem?.barInExpand?.length || tableDataWithActions?.lazyLoadExpData"
+      class="fa {{tableDataWithActions.expandedRowIndex === rowIndex ? 'fa-angle-down' : 'fa-angle-right'}}"></span></td>
+      <ng-container *ngFor="let eachHeader of displayColumns; let ind = index">
+        <ng-container *ngIf="eachHeader['parameters']">
+          <ng-container *ngFor="let param of eachHeader.parameters">
+            <td [ngStyle]="eachHeader['inLineStyle']" class="row-item">
+              {{eachItem[eachHeader['key']][param['key']]}}
+            </td>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!eachHeader['parameters']">
+          <td
+            class="row-item {{(eachHeader && eachHeader['disableClick'] && eachItem && eachItem[eachHeader['disableClick']]) ? 'no_click_column' : ''}}"
+            [ngStyle]="eachHeader['inLineStyle']"
+            [style.border-left] = "eachItem?.['row_style']?.['style_props' ] && ind === 0 ? eachItem['row_style']['style_props']['border-left'] +'!important' : '' "
+            [ngbTooltip]="(ind === 0 && eachItem?.['row_style']?.['tooltip']) ? eachItem['row_style']['tooltip'] : ''" placement="right" container="body"
+            [ngClass]="(eachHeader['style_header_driven'] === false) ? '' : eachHeader['style']"
+            (click)="eachItemClick(eachHeader, eachItem, rowIndex, $event)">
+            <ng-container *ngIf="!['check-box', 'tile', 'badge', 'icon', 'image', 'progress','switch'].includes(eachHeader['type'])">
+              <ng-container *ngIf="eachHeader['value'] === 'url'">
+                <img class="logo-img" [src]="eachItem['image_url']" alt="">
+              </ng-container>
+              <ng-container *ngIf="['activity_start','activity_end'].includes(eachHeader.key)">
+                <span class="px-2 py-1">
+                  {{eachItem[eachHeader['key']].time}}
+                </span>
+              </ng-container>
+              <ng-container *ngIf="['access_list'].includes(eachHeader.key)">
+                <span class="count px-2 py-1 ml-2" *ngFor="let listItem of eachItem[eachHeader['key']]"
+                  title="{{listItem}}">{{listItem}}</span>
+              </ng-container>
+              <ng-container *ngIf="eachHeader.box_style">
+                <ng-container *ngIf="eachHeader.key === 'activity_duration'">
+                  <span class="activity">
+                    <span class="start-container">{{ eachItem[eachHeader['key']]['shift_start_time'] }}</span>
+                    <em class="fa fa-arrow-right"></em>
+                    <span class="end-container">
+                      {{ eachItem[eachHeader['key']]['shift_end_time'] }}</span>
+                    <span class="duration-info" title="{{ eachItem[eachHeader['key']]['duration'] }}">
+                      {{ eachItem[eachHeader['key']]['duration'] }}</span>
+                  </span>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="['oee'].includes(eachHeader.key)">
+                <span class="px-2 py-1 ml-2">{{eachItem[eachHeader['key']] ? 'Yes' :'No'}}</span>
+              </ng-container>
+              <ng-container
+                *ngIf="eachHeader['value'] !== 'url' && !['access_list','activity_start','activity_end','oee'].includes(eachHeader.key) && !eachHeader.box_style">
+                <ng-container *ngIf="eachHeader.enableClick && eachHeader?.href; else tableCellTemplate">
+                  <a [ngStyle]="{color: eachItem[eachHeader['colorKey']]}" [attr.href]="eachItem[eachHeader.href]" target="_blank" rel="noopener" class="anchor-link"
+                    title="{{(eachItem[eachHeader['key'] + '_title'] || eachItem[eachHeader['value'] + '_title'] || eachItem[eachHeader['key']] || eachItem[eachHeader['value']]) | unescape}}">
+                    {{(eachItem[eachHeader['key'] || eachHeader['value']]) | unescape}}
+                  </a>
+                </ng-container>
+                <ng-template #tableCellTemplate>
+                  <span [ngStyle]="{color: eachItem[eachHeader['colorKey']]}"
+                    title="{{(eachItem[eachHeader['key'] + '_title'] || eachItem[eachHeader['value'] + '_title'] || eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}">
+                    {{(eachItem[eachHeader['key'] || eachHeader['value']])}}
+                  </span>
+                </ng-template>
+              </ng-container>
+              <span class="count px-2 ml-2" *ngIf="ind == 0 && eachItem['total_no']"
+                title="{{eachItem['total_no']}}">{{eachItem['total_no']}}</span>
+            </ng-container>
+            <ng-container *ngIf="['tile'].includes(eachHeader['type'])">
+              <ng-container
+                *ngIf="eachItem[eachHeader['key']] && eachItem[eachHeader['key'] || eachHeader['value']].length <= 3">
+                <ng-container
+                  *ngFor="let listItem of eachItem[eachHeader['key'] || eachHeader['value']]; let tileIndex=index">
+                  <span class="count px-2 py-1 ml-2">{{listItem}}</span>
+                </ng-container>
+              </ng-container>
+              <ng-container
+                *ngIf="eachItem[eachHeader['key']] && eachItem[eachHeader['key'] || eachHeader['value']].length > 3">
+                <ng-container
+                  *ngFor="let listItem of eachItem['tileData' + (eachHeader['key'] || eachHeader['value'])]; let tileIndex=index">
+                  <span class="count px-2 py-1 ml-2" *ngIf="listItem !== 'View All'">{{listItem}}</span>
+                  <span class="count px-2 py-1 ml-2 view-all-tile-info" *ngIf="listItem === 'View All'" placement="right"
+                    [ngbPopover]="tileMenu" container="body" [popoverTitle]="tileTitle"
+                    [autoClose]="'outside'">{{listItem}}</span>
+                  <ng-template #tileTitle>
+                    <div>{{eachHeader['label']}}</div>
+                  </ng-template>
+                  <ng-template #tileMenu>
+                    <div class="col-12">
+                      <div class="row">
+                        <ng-container *ngFor="let listItem of eachItem[eachHeader['key'] || eachHeader['value']]">
+                          <span class="count px-2 py-1 m-1">{{listItem}}</span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="['check-box'].includes(eachHeader['type'])">
+              <ng-container *ngIf="((eachItem['disabledActions'] && !eachItem['disabledActions'].includes(eachHeader['key'] || eachHeader['value'])) || 
+              !eachItem['disabledActions']); else defaultCheckBox">
+                <input type="checkbox" name="check-box" class="check-mark cursor-pointer" (change)="emitAction({'type': 'check-box-change'}, eachItem, rowIndex, 
+                        eachItem[eachHeader['key'] || eachHeader['value']], $event)"
+                  [checked]="eachItem[eachHeader['key'] || eachHeader['value']]"
+                  [(ngModel)]="eachItem[eachHeader['key'] || eachHeader['value']]">
+              </ng-container>
+              <ng-template #defaultCheckBox>
+                <span class="fs-12 {{ eachItem[eachHeader['iconClass']] }}"
+                  [ngStyle]="eachHeader['header_driven'] ?  eachHeader['iconStyle'] || '' : eachItem['iconStyle'] || ''"
+                  ngbTooltip="{{ eachItem[eachHeader['tooltip']] || '' }}" placement="right" container="body"
+                  [disableTooltip]="!eachHeader['enableTooltip'] || eachItem['disableTooltip']">
+                </span>
+              </ng-template>
+            </ng-container>
+            <ng-container *ngIf="['badge'].includes(eachHeader['type'])">
+              <span
+                class="badge badge-pill fs-12 {{ eachHeader['header_driven'] ?  eachHeader['badge_custom'] || '' : eachItem['badge_custom'] || ''}}"
+                [ngStyle]="eachHeader['header_driven'] ?  eachHeader['badge_style'] || '' : eachItem['badge_style'] || ''">
+                <span *ngIf="eachHeader['enable_icon']"> <em class="fa {{eachItem['badge_icon'] || ''}}"></em></span>
+                {{eachItem[eachHeader['key'] || eachHeader['value']]}}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="['icon'].includes(eachHeader['type'])">
+              <span title="{{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}" [ngClass]="(eachHeader['style_header_driven'] === false) ? eachItem[eachHeader['itemStyle']] : ''"
+                *ngIf="eachHeader['enable_value_disp'] && (eachHeader['value_position'] === 'left' || !eachHeader['value_position'])">
+                <span [ngClass]="(eachHeader['style_header_driven'] === false) && (eachItem[eachHeader['itemStyle']] !== '') ? 'header_style_driven mr-1':''"
+                 *ngIf="(eachHeader['style_header_driven'] === false); else headerStyleDriven">
+                  {{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}
+                </span>
+                <ng-template #headerStyleDriven>
+                  {{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}&nbsp;&nbsp;
+                </ng-template>
+              </span>
+              <span class="fs-12 {{ eachItem[eachHeader['iconClass']] }}"
+              [ngClass]="(eachHeader['style_header_driven'] === false) ? 'pl-1' : ''"
+                [ngStyle]="eachHeader['header_driven'] ?  eachHeader['iconStyle'] || '' : eachItem['iconStyle'] || ''"
+                ngbTooltip="{{ eachItem[eachHeader['tooltip']] || '' }}" placement="right" container="body"
+                [disableTooltip]="!eachHeader['enableTooltip'] || eachItem['disableTooltip']">
+              </span>
+              <span title="{{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}"
+                *ngIf="eachHeader['enable_value_disp'] && eachHeader['value_position'] === 'right'">
+                <span [ngClass]="(eachHeader['style_header_driven'] === false) && (eachItem[eachHeader['itemStyle']] !== '') ? 'header_style_driven mr-1':''"
+                *ngIf="(eachHeader['style_header_driven'] === false); else headStyleDriven">
+                  {{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}
+                </span>
+                <ng-template #headStyleDriven>
+                  {{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}&nbsp;&nbsp;
+                </ng-template>
+              </span>
+            </ng-container>
+            <ng-container *ngIf="['image'].includes(eachHeader['type'])">
+              <img class="logo-img" [ngbTooltip]="eachHeader['enableTooltip'] ? eachItem[eachHeader['tooltip']] : ''" container="body" placement="right" [src]="eachItem[eachHeader['key'] || eachHeader['value']]"
+              onerror="this.onerror=null;this.src='assets/images/svg-icons/default_asset_image.svg';" alt="">
+            </ng-container>
+            <ng-container *ngIf="['progress'].includes(eachHeader['type'])">
+              <div class="row">
+                <div class="progress mt-1 simple_table_progress col-8">
+                  <div class="progress simple_table_progress">
+                    <div class="progress-bar progress-bar-custom" role="progressbar" title="{{eachItem['progress_hover']}}" [ngStyle]="{'background-color':eachItem?.progress_color}"
+                      [style.width]="eachItem['progress_percentage'] + '%'" aria-valuenow="25" aria-valuemin="0"
+                      aria-valuemax="100">
+                    </div>
+                  </div>
+                  <label class="text_center_percentage mt-1 pb-0 mb-0" title="{{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}">{{(eachItem[eachHeader['key']] || eachItem[eachHeader['value']])}}</label>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="['switch'].includes(eachHeader['type'])">
+              <div class="pretty p-switch p-fill ml-2 cursor-pointer action-item" placement="bottom"
+                container="body" >
+                <input type="checkbox"
+                [checked]="eachItem[eachHeader['key'] || eachHeader['value']]"
+                  [(ngModel)]="eachItem[eachHeader['key'] || eachHeader['value']]"              
+               >
+                <div class="state">
+                  <label for=""></label>
+                </div>
+              </div>
+            </ng-container>
+          </td>
+        </ng-container>
+      </ng-container>
+      <td class="each-action-item"
+      *ngIf="tableDataWithActions['tableActions']['enableActions']  && tableDataWithActions['tableActions']['actions'].length"
+      [ngStyle]="{'min-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20),
+              'max-width.px': (tableDataWithActions['tableActions']['actions'].length * 26 + 20)}"
+              [style.width]="tableDataWithActions['actionsWidth'] ? tableDataWithActions['actionsWidth'] + 'px !important' : 0">
+      <span class="d-flex align-middle pt-1 fs-14 available-actions">
+        <ng-container *ngFor="let eachAction of tableDataWithActions['tableActions']['actions']">
+          <ng-container *ngIf="eachAction['type'] === 'switch' && ((eachItem['disabledActions'] && !eachItem['disabledActions'].includes(eachAction['type'])) || !eachItem['disabledActions']); else IconicActions">
+            <div class="pretty p-switch p-fill ml-2 cursor-pointer action-item" placement="bottom"
+              ngbTooltip="{{eachAction['label'] || 'Enable'}}" container="body" [hidden]="eachAction['hidden']">
+              <input type="checkbox" [checked]="eachItem[eachAction['key']]" [(ngModel)]="eachItem[eachAction['key']]"
+                (ngModelChange)="emitAction({'type': eachAction['type']}, eachItem, rowIndex, 
+                      eachItem[eachAction['key'] || eachAction['value']],$event)">
+              <div class="state">
+                <label for=""></label>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #IconicActions>
+            <span [ngClass]="{'d-none': eachAction?.['icon-class']?.includes('d-none') }" class="cursor-pointer action-item " id="{{'action_' + eachAction['type'] + '_' + rowIndex}}" (click)="emitAction(eachAction, eachItem,rowIndex,undefined,$event)"
+              placement="bottom" ngbTooltip="{{eachAction['label'] || ''}}" container="body" *ngIf="((eachItem['disabledActions'] && !eachItem['disabledActions'].includes(eachAction['type'])) || 
+                    !eachItem['disabledActions'])" [hidden]="eachAction['hidden']">
+              <em class="fa {{eachAction['icon-class'] || ''}}"></em>
+            </span>
+          </ng-template>
+        </ng-container>
+      </span>
+      </td>
+</ng-template>
+<!-------------------------------------------------- Template to display mobile table---------------------------------------------------------------------------->
+<ng-template #mobileTableTemplate let-eachItem="eachItem" let-rowIndex="rowIndex">
+  <div class="accordion" id="mobileTable">
+    <div class="card">
+      <div class="card-header px-2 py-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="text-truncate content-placeholder">
+            <h5 class="mb-0">
+              <button class="btn btn-block btn-link text-left text-truncate" style="height: auto !important;" type="button"
+                data-toggle="collapse" [attr.data-target]="'#collapseOne_'+ (customId ? customId : '') + '' + rowIndex " aria-expanded="false"
+                aria-controls="collapseOne">
+                <ng-container *ngIf="!containsImage()">
+                  <ng-container *ngFor="let eachHeader of mobileDisplayColumns; let ind=index">
+                    <div class="font-weight-bold mobile-table-main-text" *ngIf="ind < 1">
+                      <span (click)="eachItemClick(eachHeader, eachItem, ind, $event)" class="p-1">{{eachItem[eachHeader['key'] || eachHeader['value']]}}</span>
+                    </div>
+                    <ng-container *ngIf="ind === 1">
+                      <span class="m-1 text-dark mobile-table-sub-text" (click)="eachItemClick(eachHeader, eachItem, ind, $event)">
+                        <ng-container *ngIf="eachHeader.key !== 'activity_duration'">
+                          {{eachItem[eachHeader['key'] || eachHeader['value']] || 'NA'}}</ng-container>
+                        <ng-container *ngIf="eachHeader.key === 'activity_duration'">
+                          <div class="activity mt-2 mr-1">
+                            <span class="small-start-container">{{ eachItem[eachHeader['key']]['shift_start_time'] }}</span>
+                            <em class="fa fa-arrow-right m-0"></em>
+                            <span class="small-end-container">
+                              {{ eachItem[eachHeader['key']]['shift_end_time'] }}</span>
+                            <span class="duration-info" title="{{ eachItem[eachHeader['key']]['duration'] }}">
+                              {{ eachItem[eachHeader['key']]['duration'] }}</span>
+                            </div>
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                    <ng-container *ngIf="ind === 2">
+                      <span class="m-1 text-dark pl-2 border-left border-dark mobile-table-sub-text" (click)="eachItemClick(eachHeader, eachItem, ind, $event)">{{eachItem[eachHeader['key'] ||
+                        eachHeader['value']] || 'NA'}}</span>
+                      </ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="containsImage()">
+                  <ng-container *ngTemplateOutlet="imageLayout; context:{ eachItem: eachItem}">
+                  </ng-container>
+                </ng-container>
+              </button>
+            </h5>
+          </div>
+          <ng-container *ngIf="tableDataWithActions['tableActions']['enableActions']  && tableDataWithActions['tableActions']['actions'].length">
+            <div class="p-2">
+              <span class="fs-14">
+                <div class="dropdown">
+                  <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <em class='fa fa-ellipsis-v'></em>
+                  </a>
+                  <div class="dropdown-menu actions-dropdown" placement="left" aria-labelledby="dropdownMenuLink">
+                    <ng-container *ngFor="let eachAction of tableDataWithActions['tableActions']['actions']">
+                      <ng-container *ngIf="(eachAction['type'] === 'switch' && ((eachItem['disabledActions'] && !eachItem['disabledActions'].includes(eachAction['type'])) || !eachItem['disabledActions'])); else IconicActions">
+                        <div class="pretty p-switch p-fill ml-2 cursor-pointer action-item" container="body"
+                          [hidden]="eachAction['hidden']">
+                          <input type="checkbox" [checked]="eachItem[eachAction['key']]"
+                            [(ngModel)]="eachItem[eachAction['key']]" (ngModelChange)="emitAction({'type': eachAction['type']}, eachItem, rowIndex, 
+                                      eachItem[eachAction['key'] || eachAction['value']],$event)">
+                          <div class="state">
+                            <label for=""></label>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-template #IconicActions>
+                        <span class="m-2" (click)="emitAction(eachAction, eachItem,rowIndex,undefined,$event)"
+                          ngbTooltip="{{eachAction['label'] || ''}}" container="body" *ngIf="((eachItem['disabledActions'] && !eachItem['disabledActions'].includes(eachAction['type'])) || 
+                                    !eachItem['disabledActions'])" [hidden]="eachAction['hidden']">
+                          <em class="fa {{eachAction['icon-class'] || ''}}"></em>
+                        </span>
+                      </ng-template>
+                    </ng-container>
+                  </div>
+                </div>
+              </span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div [id]="'collapseOne_'+ (customId ? customId : '') + '' +rowIndex" class="collapse" aria-labelledby="headingOne" data-parent="#mobileTable">
+        <div class="card-body">
+          <div *ngFor="let eachHeader of displayColumns">
+            <div *ngIf="eachHeader['label'] && eachHeader['label'] !== ''">
+              {{eachHeader['label']}} :
+            </div>
+            <ng-container *ngIf="['image'].includes(eachHeader['type'])">
+              <img class="logo-img" [src]="eachItem[eachHeader['key'] || eachHeader['value']]"
+                onerror="this.onerror=null;this.src='assets/images/svg-icons/default_asset_image.svg';" alt="">
+            </ng-container>
+            <ng-container
+              *ngIf="!['check-box', 'tile', 'badge', 'icon', 'image', 'progress','switch'].includes(eachHeader['type']) && eachHeader.key !== 'activity_duration'">
+              <strong>{{eachItem[eachHeader['key'] || eachHeader['value']] || 'NA'}}</strong>
+            </ng-container>
+            <ng-container *ngIf="eachHeader.key === 'activity_duration'">
+              <div class="activity mt-2">
+                <span class="start-container">{{ eachItem[eachHeader['key']]['shift_start_time'] }}</span>
+                <em class="fa fa-arrow-right"></em>
+                <span class="end-container">
+                  {{ eachItem[eachHeader['key']]['shift_end_time'] }}</span>
+                <span class="duration-info" title="{{ eachItem[eachHeader['key']]['duration'] }}">
+                  {{ eachItem[eachHeader['key']]['duration'] }}</span>
+                </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ------------------------------------------------- Template to display data when a row is expanded -------------------------------------------------------- -->
+
+<ng-template #rowExpandTemplate let-eachItem="eachItem" let-rowIndex="rowIndex">
+  <div class="row m-0 pl-4" *ngIf="eachItem?.expandData && eachItem?.expandData?.length">
+    <div class="col-md-3 col-sm-6 col-xs-12 pb-3" *ngFor="let eachField of eachItem.expandData">
+      <div class="each-field-label">{{eachField.label}}</div>
+      <div class="each-field-value">{{eachField.value}}</div>
+    </div>
+  </div>
+  <div class="ml-3 pl-4" *ngIf="eachItem?.barInExpand && eachItem?.barInExpand?.length">
+    <span class="my-2 ml-3" *ngIf="eachItem?.barInExpandOptions?.title">{{eachItem['barInExpandOptions']['title']}}</span>
+    <div class="row ml-2 mb-0 tooltip_bar_expand">
+      <div class="progress verticalrotate" *ngFor="let progress of eachItem['barInExpand']"
+       [ngbTooltip]="eachItem['barInExpand']?.length ? statusContent : 'null'"  placement="bottom">
+        <div *ngFor="let item of progress['barData']"
+        [ngStyle]="{'background-color': item['color'], 'width': item['width']}"
+          class="progress-bar h-100" role="progressbar">
+        </div>
+        <ng-template #statusContent>
+          <ng-container *ngIf="progress?.toolTipContent">
+            <div *ngIf="progress['toolTipContent']?.date">
+              {{progress['toolTipContent']['date']}}
+            </div>
+            <div *ngIf="progress['toolTipContent']?.message">
+              <span><em *ngIf="progress['toolTipContent']?.iconClass" class="mr-2 {{progress['toolTipContent']['iconClass']}}"></em>{{progress['toolTipContent']['message']}}</span>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      </div>
+      <div class="ml-3 mb-3" [style.width.px]="eachItem['barInExpand'] ? eachItem['barInExpand'].length * 34 : 0">
+        <span *ngIf="eachItem?.barInExpandOptions?.first_date">{{eachItem['barInExpandOptions']['first_date']}}</span>
+        <span *ngIf="eachItem?.barInExpandOptions?.last_date" style="float: right">{{eachItem['barInExpandOptions']['last_date']}}</span>
+      </div>
+    <button class="btn btn-primary ml-3 pl_10" *ngIf="eachItem?.barInExpandOptions?.button_title" (click)="emitAction(eachItem['barInExpandOptions']['button_title'], eachItem)">{{eachItem['barInExpandOptions']['button_title']}}</button>
+  </div>
+  <div class="m-0 p-2" *ngIf="!eachItem?.expandData?.length && !eachItem?.barInExpand?.length && !tableDataWithActions?.lazyLoadExpData">
+    <div class="text-center no-data-available">
+      No data available.
+    </div>
+  </div>
+  <div class="m-2" *ngIf="tableDataWithActions?.rowTableData && !tableDataWithActions.showLazyLoading">
+    <table class="table table-bordered" aria-hidden="true">
+      <thead>
+        <tr>
+          <th *ngFor='let eachHeader of tableDataWithActions.rowTableData.headerContent' scope="col">{{eachHeader.label}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let eachRow of tableDataWithActions.rowTableData.bodyContent'>
+          <td *ngFor='let eachHeader of tableDataWithActions.rowTableData.headerContent'>
+            {{eachRow[eachHeader.value]}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="tableDataWithActions?.lazyLoadExpData && tableDataWithActions.showLazyLoading">
+    <span class="fa fa-spin fa-spinner"></span>
+  </div>
+</ng-template>
+<button hidden id="refersh_data"></button>
+
+
+<ng-template let-eachItem="eachItem" #imageLayout>
+  <span *ngFor="let eachHeader of mobileDisplayColumns; let ind=index">
+    <span *ngIf="ind < 1">
+      <img class="logo-img" [src]="eachItem[eachHeader['key'] || eachHeader['value']]"
+      onerror="this.onerror=null;this.src='assets/images/svg-icons/default_asset_image.svg';" alt="">
+    </span>
+    <span *ngIf="ind === 1">
+      <span class="font-weight-bold p-3" (click)="eachItemClick(eachHeader, eachItem, ind, $event)">{{eachItem[eachHeader['key'] || eachHeader['value']] || 'NA'}}</span>
+    </span>
+  </span>
+</ng-template>
+
+<!-- Button trigger modal -->
+<button type="button" class="d-none" id="serverSearchButton" data-toggle="modal" data-target="#serverSearchModal" >
+  Launch Filter Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="serverSearchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" >Filters</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body table-filter-server-side">
+        <div *ngFor="let filterContent of displayColumns">
+          <div class="form-group" *ngIf="filterContent.header_type === 'text'">
+            <label>{{filterContent.label}}</label>
+            <input type="text" class="form-control border" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+              placeholder="Search {{filterContent.label}}" 
+               [regexType]="keyRegex" [validatorTypes]="['text']" wtUserInputValidator>
+          </div>
+          <div class="form-group" *ngIf="filterContent.header_type === 'number'">
+            <label>{{filterContent.label}}</label>
+            <input type="number" class="form-control border" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+              placeholder="Search {{filterContent.label}}" 
+              >
+          </div>
+          <div class="form-group"*ngIf="filterContent.header_type === 'select'">
+            <label>{{filterContent.label}}</label>
+            <ng-select placeholder="Select {{filterContent.label}}" bindLabel="label" bindValue="value"
+              id="{{filterContent['key'] || filterContent['value']}}" appendTo="body"
+               class="p-0 filters" [items]="filterContent.options"
+              [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+               [searchable]="metaData['enableSearchable']">
+              <ng-template ng-option-tmp let-item="item" let-index="index">
+                <div title="{{item.label}}" class="ellipsed-text">{{item.label}}</div>
+              </ng-template>
+            </ng-select>
+          </div>
+          <div class="form-group" *ngIf="filterContent.header_type === 'multiselect'">
+            <label>{{filterContent.label}}</label>
+            <ng-select placeholder="Select {{filterContent.label}}" bindLabel="label" [multiple]="false" bindValue="value"
+              id="{{filterContent['key'] || filterContent['value']}}" appendTo="body"
+               class="p-0" [items]="filterContent.options"
+              [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+               [searchable]="metaData['enableSearchable']">
+              <ng-option *ngFor="let diTag of filterContent.options" title="{{diTag.label}}" [value]="diTag.value"
+                [disabled]="diTag.disabled">
+                <div class="ellipsed-text">{{diTag.label}}</div>
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="filter-date pb-2">
+            <ng-container *ngIf="filterContent.header_type === 'date_range'">
+              <input class="shadow-input" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+                [selectMode]="'range'" [max]="metaData.today" [owlDateTime]="dtRange1" 
+                placeholder="Select Date Range">
+              <input class="form-control border filter-date-control" placeholder="Select Date Range" readonly
+                [owlDateTimeTrigger]="dtRange1"
+                [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy'" >
+              <owl-date-time #dtRange1 [pickerType]="'calendar'"></owl-date-time>
+              <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']] && 
+            filterObject[filterContent['key'] || filterContent['value']].length"
+                (click)="onDateRangeFilterClear($event, filterContent,[])"></span>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="filterContent.header_type === 'date_time_range'">
+            <div class="filter-date pb-2">
+              <input class="shadow-input" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+                [selectMode]="'range'" [max]="metaData.today" [owlDateTime]="dtRange2" 
+                placeholder="Select Date Range" >
+              <input class="form-control border filter-date-control" placeholder="Select Date Range" readonly
+                [owlDateTimeTrigger]="dtRange2"
+                [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy HH:mm'" >
+              <owl-date-time #dtRange2></owl-date-time>
+              <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']] && 
+              filterObject[filterContent['key'] || filterContent['value']].length"
+                (click)="onDateRangeFilterClear($event, filterContent,[])"></span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="filterContent.header_type === 'date'">
+            <div class="filter-date pb-2">
+              <input class="shadow-input" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+                [max]="metaData.today" [owlDateTime]="dtRange3" 
+                placeholder="Select Date Range" >
+              <input class="form-control border filter-date-control" placeholder="Select Date Range" readonly
+                [owlDateTimeTrigger]="dtRange3"
+                [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'dd/MM/yyyy'" >
+              <owl-date-time #dtRange3 [pickerType]="'calendar'"></owl-date-time>
+              <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']]"
+                (click)="onDateRangeFilterClear($event, filterContent,null)"></span>
+            </div>
+          </ng-container>
+          <div class="filter-date pb-2">
+            <ng-container *ngIf="filterContent.header_type === 'time'">
+              <input class="shadow-input" [(ngModel)]="filterObject[filterContent['key'] || filterContent['value']]"
+                [max]="metaData.today" [owlDateTime]="dtRange4" 
+                placeholder="Select Time Range" >
+              <input class="form-control border filter-date-control" placeholder="Select Time Range" readonly
+                [owlDateTimeTrigger]="dtRange4"
+                [value]="filterObject[filterContent['key'] || filterContent['value']] | dateTransForm:'HH:mm'" >
+              <owl-date-time #dtRange4 [pickerType]="'timer'"></owl-date-time>
+              <span class="fa fa-times clear-icon" *ngIf="filterObject[filterContent['key'] || filterContent['value']]"
+                (click)="onDateRangeFilterClear($event, filterContent,null)"></span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="text-center ml-3" >Close</span></button>
+        <button type="button" class="btn btn-primary" (click)="onChaneInColumnInput()"><span class="text-center ml-3" >Apply</span></button>
+      </div>
+    </div>
+  </div>
+</div>

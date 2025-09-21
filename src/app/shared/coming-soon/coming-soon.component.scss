@@ -1,0 +1,14 @@
+.in-progress-container {
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+  
+  .in-progress-content {
+    max-width: 400px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .fa-spinner {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    color: #007bff; /* Bootstrap primary color */
+  }

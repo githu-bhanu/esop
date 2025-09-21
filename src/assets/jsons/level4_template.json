@@ -1,0 +1,62 @@
+{
+    "status": "success",
+    "data": [
+      {
+        "section": "General Information",
+        "fields": [
+          {
+            "type": "text",
+            "label": "Site Name",
+            "key": "site_name",
+            "required": true
+          },
+          {
+            "type": "textarea",
+            "label": "Description",
+            "key": "description"
+          },
+          {
+            "type": "number",
+            "label": "Longitude",
+            "key": "longitude"
+          },
+          {
+            "type": "number",
+            "label": "Latitude",
+            "key": "latitude"
+          }
+        ]
+      },
+      {
+        "section": "Address Information",
+        "fields": [
+          {
+            "type": "text",
+            "label": "Address",
+            "key": "address"
+          },
+          {
+            "type": "text",
+            "label": "City",
+            "key": "city"
+          },
+          {
+            "type": "text",
+            "label": "State",
+            "key": "state"
+          },
+          {
+            "type": "text",
+            "label": "Country",
+            "key": "country"
+          },
+          {
+            "type": "text",
+            "label": "Pincode",
+            "key": "pincode"
+          }
+        ]
+      }
+    ]
+  }
+  

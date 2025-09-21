@@ -1,0 +1,133 @@
+/* styles.css or sidebar.component.css */
+.app-aside {
+  transition: transform 0.3s ease-in-out;
+  // transform: translateX(-175px); /* Hidden by default */
+}
+
+.app-aside.menuOpened {
+  // transform: translateX(0); /* Visible when expanded */
+}
+
+aside, aside:hover {
+  opacity: 1 !important;
+}
+
+.app-aside-expand-md.menuOpened {
+  width: 4rem;
+}
+
+.menu-arrow {
+  position: absolute;
+  right: .75rem;
+  top: 50%;
+  height: 1em;
+  width: 1em;
+  line-height: 1em;
+  text-align: center;
+  margin-top: -.375rem;
+  opacity: .4;
+  transform: translateY(0);
+  transition: transform .2s ease-in-out;
+}
+
+.sub-item.menu-item {
+  display: -webkit-box;
+}
+
+.sub-item.menu-icon {
+  margin-right: .5em;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #a6abbd;
+}
+
+.sub-item.menu-link {
+  padding-left: 0px;
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.pl-2point5rem {
+  padding-left: 2.5rem;
+}
+
+.collapsible-menu {
+  position: relative;
+
+  .menu-item {
+    position: relative;
+
+    .menu-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: #007bff; // Change text color on hover
+      }
+    }
+
+    .collapsible-sub-menu {
+      position: fixed;
+      top: 0rem;
+      left: 5rem;
+      padding-left: 1rem;
+      // visibility: visible;  
+      // opacity: 1;
+      // transform: translateX(-4rem);
+      visibility: hidden;
+      opacity: 0;
+      background-color: #fff; // Optional: set a background for the sub-menu
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: add shadow for better visibility
+      z-index: 9999; // Ensure it appears above other elements
+      transition: all 0.3s ease;
+      &::hover {
+visibility: visible;  
+      opacity: 1;
+      transform: translateX(-4rem);
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .menu-subhead {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+
+        .sub-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+
+          .menu-icon {
+            margin-right: 0.5rem;
+          }
+
+          .menu-link {
+            text-decoration: none;
+            color: #555;
+
+            &:hover {
+              color: #007bff;
+            }
+          }
+        }
+      }
+    }
+
+    &:hover {
+      .collapsible-sub-menu {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-4rem); // Adjust sliding effect for hover
+      }
+    }
+  }
+}

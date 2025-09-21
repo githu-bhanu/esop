@@ -1,0 +1,34 @@
+{
+    "status": "success",
+    "parameters": [
+        {
+            "id": 1,
+            "parameter_name": "inray/opc-router",
+            "description": "1"
+        },
+        {
+            "id": 2,
+            "parameter_name": "softing/edgeconnector/siemens",
+            "description": "1"
+        },
+        {
+            "id": 3,
+            "parameter_name": "wago",
+            "description": "1"
+        },
+        {
+            "id": 4,
+            "parameter_name": "homelab",
+            "description": "1"
+        },
+        {
+            "id": 5,
+            "parameter_name": "portainer/dnd",
+            "description": "1"
+        },
+        {
+            "id": 6,
+            "parameter_name": "on-the-fly-devices"
+        }
+    ]
+}
